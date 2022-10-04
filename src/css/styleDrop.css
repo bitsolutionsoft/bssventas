@@ -1,0 +1,40 @@
+@import url('../css/color.css');
+.dropdown_input {
+    position: relative;
+    cursor: default;
+  }
+  
+ .options_input {
+    display: none;
+  }
+  
+.open_input {
+    display: block;
+    background-color: var(--primary);
+    overflow-y: scroll;
+    border: 1px solid var(--shadow);
+    box-shadow: 0px 2px 5px 0 var(--shadow);
+    box-sizing: border-box;
+    margin-top: -1px;
+    max-height: 200px;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    z-index: 1000;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+.option_input {
+    box-sizing: border-box;
+    color: rgba(51, 51, 51, 0.8);
+    cursor: pointer;
+    display: block;
+    padding: 8px 10px;
+    
+  }
+  
+  .option_input.selected,
+  .option_input:hover {
+    background-color: var(--acent);
+    color: #333;
+  }
