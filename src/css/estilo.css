@@ -357,7 +357,9 @@ font-weight: 700;
     display: none;
     page-break-before: always;
     }
+
     @media print {
+
     /*css aquí */
     .rowfac {
      display: flex;  
@@ -559,6 +561,16 @@ z-index: 1000;
   @page{
     margin: 0.5cm;
   }
+}
+.visible{
+  background-color: rgba(51, 51, 51, 0.521);
+  display: block;
+  z-index: 100;
+}
+.colf{
+
+  right: 0;
+  margin-left: 60%;
 }
 /*calendario
 input[type=date] {

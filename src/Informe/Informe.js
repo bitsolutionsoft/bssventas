@@ -383,16 +383,18 @@ datosGanacias.map((item,index)=>(
 
 <div className="row w-100 h-50 ">
   <h5>Historial de ventas</h5>
-  <div className="tblheight">
+
+  <div className="div-table">
 <div className="table-wrap">
-<table className="table-item">
+  
+<table className="table-item ">
   <thead >
           <tr>
           <th>#</th>
             <th>Fecha</th>
             <th>Cliente</th>
              <th>Total vendido</th>
-             <th>Detalle</th>
+          {/**   <th>Detalle</th>*/} 
            
           </tr>
         </thead>
@@ -404,7 +406,9 @@ datosVentas.map((item,index)=>(
   <td>{moment.utc(item.fecha).format("DD/MM/YYYY")}</td>
   <td>{item.cliente}</td> 
   <td>{item.total}</td>
+{/**
   <td ><button  type="button" className="btn btn-sm-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={(e)=>verDetalle(item,e.target)}><i style={{color: "#FABC2A"}} className="fa fa-info-circle gb-primary" aria-hidden="true"></i></button></td>
+ */}
 </tr>
 ))
 

@@ -8,7 +8,7 @@ import {Quetzal} from '../Funciones/Moneda';
 import SearchBar2 from '../Component/SearchBar2';
 import printJS from 'print-js';
 
-//const bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
+
 
 
 function Venta(props) {
@@ -47,6 +47,8 @@ function Venta(props) {
     const [precioCliente,setPrecioCliente]=useState(false);
     const [precios, setPrecios]=useState([]);
     const [nuevoPrecio,setNuevoPrecio]=useState("");
+    const [visible, setvisible] = useState(false)
+    const [clieteSelect, setclieteSelect] = useState([])
    
 
     useEffect(() => {
@@ -440,6 +442,7 @@ let fact={
     "estado": estado 
    
 }
+
     let ingresado=await Datos.NuevoReg("factura",fact);
     if(ingresado !== null){
        
@@ -532,40 +535,8 @@ const imprimirBoleta = async() => {
       })
       .then((si) => {
         if (si) {
-          
-          
-          var content=document.getElementById("fct").innerHTML;
-       
-
-       
-      //    document.querySelector("#fct").contentWindow.print();
-
-
-/*
-          printJS({
-            printable:datosv,
-            properties:['descripcion','cantidad','precio','total'],
-            type:'json',
-            header: '<div><h3 class="custom-h3">Farmacia</h3><h2 class="custom-h3"> cliente:gfjfjkhafja</h2></div> ',
-            footer: '<h3 class="custom-h3">My custom header</h3>',
-            style: '.custom-h3 { color: red; }'
-          });*/
-
-          //window.print(content);
-          
-      
-let w=window.open();
-    w.document.write(content);
-    w.document.close();
-    w.focus();
-    w.print();
-  // w.close();
-
-//printJS('factura','html')
-       consultarProducto();
-    //numero_orden();
-    setIdCliente(datosc[0].idcliente);
-    borraDatosVenta();
+   
+setvisible(true)
     return true;
  
 
@@ -580,25 +551,43 @@ let w=window.open();
 }
 
 
+const nuevaVenta = () => {
+  setvisible(false)
+  consultarProducto();
+  //numero_orden();
+  setIdCliente(datosc[0].idcliente);
+  borraDatosVenta();
+  
+ }
+ const ClienteSelected=(idcliente)=>{
+  setIdCliente(idcliente);
+  console.log(idcliente)
+  for(let i  in datosc){
+    if(Number(datosc[i].idcliente) ===Number( idcliente)){
+ setclieteSelect(datosc[i])
+    }
+  }
+ }
 
- 
 return (
 <div className="">
   {/**   */} 
-<div class="modal" id="fct" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Comprobante de compra</h5>
-        <h5 class="modal-title">{'Fecha y hora:  '+moment(new Date()).format("DD/MM/YYY hh:mm:ss")}</h5>
+  <div className={visible === true ? 'modal visible' : 'modal'}>
+    
+<div className='' id="fct" tabindex="-1">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={()=>{nuevaVenta()}}></button>
       </div>
-      <div class="modal-body">
-      <div>
-            <h5>Cliente:__________________    Nit: C/F </h5>
-            <h5>Dirección: Ciudad</h5>
-            <hr/>
-            <h5>Productos: </h5>
-            
+      <div className="modal-body" id='boleta'>
+      <div >   
+        <h6 className="modal-title">Comprobante de compra</h6>   
+            <p>{clieteSelect !== undefined ? 'Cliente: '+clieteSelect.nombre+" "+clieteSelect.apellido : "Cliente: ________________"} </p>
+            <p>{clieteSelect !== undefined ? 'Nit: '+clieteSelect.nit+" " : "Nit: CF"} </p>
+            <p>{clieteSelect !== undefined ? 'Dirección: '+clieteSelect.direccion+" " : "Dirección: Ciudad"} </p>
+            <p>Productos: </p>
+<hr/>
         </div>
 
  <div className="colfac">
@@ -647,10 +636,14 @@ return (
                     </div> 
     </div>
       </div>
-      
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={()=>nuevaVenta()}>Salir</button>
+        <button type="button" className="btn btn-primary" onClick={()=>{nuevaVenta(); printJS("boleta","html")}}>Imprimir</button>
+      </div>
     </div>
   </div>
 </div>
+  </div>
 
   
         
@@ -916,7 +909,7 @@ return (
   <h5>Seleccionar cliente</h5>
               <div className="row">
               <div className="col-9">  
-                  <select className="form-select form-select-sm" id="floatingSelectGrid" data-live-search="true" data-size="8" aria-label="Floating label select example" value={idcliente} onChange={(e)=>setIdCliente(e.target.value)}>
+                  <select className="form-select form-select-sm" id="floatingSelectGrid" data-live-search="true" data-size="8" aria-label="Floating label select example" value={idcliente} onChange={(e)=>ClienteSelected(e.target.value)}>
                          {datosc ? datosc.map((item,index) =>(
                          <option key={index} value={item.idcliente} data-tokens={item.nombre}>{item.nombre+ " " +item.apellido}</option>))
                          :
@@ -932,40 +925,39 @@ return (
        </div>
        <hr/>
   <div className="row mb-2 mt-3">
-  <label for="inputPassword3" className="col-sm-4 col-form-label">Subtotal</label>
+  <label htmlFor="inputPassword3" className="col-sm-4 col-form-label">Subtotal</label>
     <div className="col-sm-8">
     <label className="form-control"  >Q {subtotal } </label>
     </div>
   </div>
 
   <div className="row mb-2">
-    <label for="inputPassword3" className="col-sm-4 col-form-label">Descuento:</label>
+    <label htmlFor="inputPassword3" className="col-sm-4 col-form-label">Descuento:</label>
     <div className="col-sm-8">
       <input type="number" className="form-control" value={descuento} onChange={(e)=>calcDescuento(e.target.value)}/> 
     </div>
   </div>
   <div className="row mb-2">
-    <label for="inputPassword3" className="col-sm-4 col-form-label">Total:</label>
+    <label htmlFor="inputPassword3" className="col-sm-4 col-form-label">Total:</label>
     <div className="col-sm-8">
       <label  className="form-control tag-total" >Q {total}</label> 
     </div>
   </div>
   <div className="row mb-2">
-    <label for="inputPassword3" className="col-sm-4 col-form-label">Recibido:</label>
+    <label htmlFor="inputPassword3" className="col-sm-4 col-form-label">Recibido:</label>
     <div className="col-sm-8">
       <input type="number" className="form-control" value={recibido} onChange={(e)=>calcCambio(e.target.value)}/>
     </div>
   </div>
   <div className="row mb-3">
-    <label for="inputPassword3" className="col-sm-4 col-form-label">Cambio:</label>
+    <label htmlFor="inputPassword3" className="col-sm-4 col-form-label">Cambio:</label>
     <div className="col-sm-8">
       <label  className="form-control" >Q {cambio }</label>
     </div>
   </div>
   <div className="row d-flex justify-content-center">
     <button type="button" className="btn btn-primary w-75 mb-2 " onClick={() =>vender("Vendido","Tienda")} >Vender</button>
-{/**   <button type="button" className="btn btn-danger w-75 " onClick={() =>vender("Pendiente","Caja")} >A caja</button>
-*/}    </div> 
+   </div> 
      
 </div>
 

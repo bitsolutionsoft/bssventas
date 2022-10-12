@@ -4,7 +4,7 @@ import md5 from "md5";
 import swal from "sweetalert";
 import SearchBar from '../Component/SearchBar';
 import Datos from '../Host/Datos';
-
+import ls from 'local-storage';
 function Empleado(props)  {
     const [idempleado, setIdempleado] = useState("");
     const [nombre, setNombre] = useState("");
@@ -278,6 +278,7 @@ const guardaruser = (e) => {
    }
    
   const actualizarUser = async(datos) => { 
+  //  if(acceso("Usuario")){
       let ingresado=await Datos.ActualizarReg("usuario",datos);
       if(ingresado !==null){
           if(ingresado.message==="Success"){
@@ -287,9 +288,29 @@ const guardaruser = (e) => {
           swal("","No Se ingreso ","error");
         }
       }
+    //}else{
+      //swal("","No tienes autorizacion de actualizar el usuario ","error");
+    //}
    }
 
+   
+const acceso = (modulo) => {
+  let permiso=ls.get("permiso");
+  console.log(permiso);
+let acceso=false;
+  permiso.map((item) =>{
+      if(item.nombre === modulo){
+          if(item.permiso ===1){
+              acceso= true;
+          }
+      }
+      return true;
+  })
+  return acceso
+}
+
    const ActualizarPermiso =async (item, permiso) => { 
+    if(acceso("Permiso")){
     let datosPermiso={
         idpermiso:item.idpermiso,
         idempleado:item.idempleado,
@@ -305,6 +326,9 @@ const guardaruser = (e) => {
         swal("Aviso", "No se pudo actualizar el permiso","error");
         }
     }
+  }else{
+    swal("Aviso", "No tienes autorización para actualizar el permiso","error");
+  }
  }  
     return(
        
