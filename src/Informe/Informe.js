@@ -26,6 +26,7 @@ function Informe(props)  {
 
   const [datosVentas, setdatosVentas] = useState([]);
   const [datosGanacias, setdatosGanacias] = useState([]);
+  const [masVendido, setMasVendido] = useState([]);
 
 const [myChart, setmyChart] = useState("")
 
@@ -90,22 +91,26 @@ const verInforme = (params) => {
       ventas(0,moment(new Date()).format("YYYY-MM-DD"),moment(new Date()).format("YYYY-MM-DD"),"dia")
       ganacias(0,moment(new Date()).format("YYYY-MM-DD"),moment(new Date()).format("YYYY-MM-DD"),"gdia")
       infoVentas(0,moment(new Date()).format("YYYY-MM-DD"),moment(new Date()).format("YYYY-MM-DD"),"ventaxsem")
+      masvendidos(0,moment(new Date()).format("YYYY-MM-DD"),moment(new Date()).format("YYYY-MM-DD"),"hoy")
       break;
       case "Semana":
         ventas(0,moment(new Date()).format("YYYY-MM-DD"),moment(new Date()).format("YYYY-MM-DD"),"semana")
         ganacias(0,moment(new Date()).format("YYYY-MM-DD"),moment(new Date()).format("YYYY-MM-DD"),"gsemana")
         infoVentas(0,moment(new Date()).format("YYYY-MM-DD"),moment(new Date()).format("YYYY-MM-DD"),"ventaxmes")
+        masvendidos(0,moment(new Date()).format("YYYY-MM-DD"),moment(new Date()).format("YYYY-MM-DD"),"semana")
         break;
         case "Mes":
           ventas(0,moment(new Date()).format("YYYY-MM-DD"),moment(new Date()).format("YYYY-MM-DD"),"mes")
           ganacias(0,moment(new Date()).format("YYYY-MM-DD"),moment(new Date()).format("YYYY-MM-DD"),"gmes")
           infoVentas(0,moment(new Date()).format("YYYY-MM-DD"),moment(new Date()).format("YYYY-MM-DD"),"ventaxanio")
+          masvendidos(0,moment(new Date()).format("YYYY-MM-DD"),moment(new Date()).format("YYYY-MM-DD"),"mes")
           break;
           case "Rango":
             if(fechaFinal !=="" && fechainicio !==""){
             ventas(0,moment(fechainicio).format("YYYY-MM-DD"),moment(fechaFinal).format("YYYY-MM-DD"),"rango")
             ganacias(0,moment(fechainicio).format("YYYY-MM-DD"),moment(fechaFinal).format("YYYY-MM-DD"),"grango")
             infoVentas(0,moment(fechainicio).format("YYYY-MM-DD"),moment(fechaFinal).format("YYYY-MM-DD"),"ventaxranm")
+            masvendidos(0,moment(new Date()).format("YYYY-MM-DD"),moment(new Date()).format("YYYY-MM-DD"),"rango")
             }else{
               swal("Aviso","Por favor de seleccionar la fecha inical y fecha final", "success");
             }
@@ -119,11 +124,11 @@ const verInforme = (params) => {
 
 async function verDetalle (item,e)  {
  
-  let detalle=await Datos.ConsutaID("detalle_factura", item.idfactura) ;
+  let detalle=await Datos.ConsutaID("detalle_factura/byfac", item.idfactura) ;
   if(detalle !== null){
     console.log(detalle)
       if(detalle.message ==="Success"){
-          setDetalle(detalle.res)
+          setDetalle(detalle.res);
       }
   }
   
@@ -140,7 +145,7 @@ async function ventas(idfac,fecha1,fecha2,accion){
     "ffinal":fecha2,
     "accion":accion,
   }
-  let dventas=await Datos.consultarInforme(informe);
+  let dventas=await Datos.consultarInforme('informe/',informe);
   console.log(dventas)
   if(dventas!== null){
     if(dventas.message==="Success"){
@@ -151,6 +156,7 @@ async function ventas(idfac,fecha1,fecha2,accion){
 
 }
 
+
 async function ganacias(idfac,fecha1,fecha2,accion){
   let informe={
     "id": idfac,
@@ -158,7 +164,7 @@ async function ganacias(idfac,fecha1,fecha2,accion){
     "ffinal":fecha2,
     "accion":accion,
   }
-  let dventas=await Datos.consultarInforme(informe);
+  let dventas=await Datos.consultarInforme('informe/',informe);
   console.log(dventas)
   if(dventas!== null){
     if(dventas.message==="Success"){
@@ -175,7 +181,7 @@ async function infoVentas(idfac,fecha1,fecha2,accion){
     "ffinal":fecha2,
     "accion":accion,
   }
-  let dventas=await Datos.consultarInforme(informe);
+  let dventas=await Datos.consultarInforme('informe/',informe);
   console.log(dventas)
   if(dventas!== null){
     if(dventas.message==="Success"){
@@ -185,6 +191,23 @@ async function infoVentas(idfac,fecha1,fecha2,accion){
       //setlabelsDatos(returnLabel(dventas.res));
 graficarDatos(dventas.res);
      
+    }
+  }
+}
+
+
+async function masvendidos(idfac,fecha1,fecha2,accion){
+  let informe={
+    "id": idfac,
+    "finicial":fecha1,
+    "ffinal":fecha2,
+    "accion":accion,
+  }
+  let dventas=await Datos.consultarInforme('informe/masvendido',informe);
+  console.log(dventas)
+  if(dventas!== null){
+    if(dventas.message==="Success"){
+      setMasVendido(dventas.res)
     }
   }
 
@@ -325,7 +348,6 @@ return(
   </div>
 
   <div className="form-outline mb-4 col-4" >
-  
       <div className='input-group'>
           <span className="input-group-text">Fecha final</span>
           <input type="date"  id="exampleFormControlInput1"  className="form-control form-control-sm"  value={fechaFinal} onChange={(e)=>setfechaFinal(moment(e.target.value).format("YYYY-MM-DD"))}/>
@@ -335,7 +357,8 @@ return(
   </div>
 
 <div className="col-auto">
-<button type="button" className="ml-1 btn btn-success" onClick={()=>verInforme("Rango")} >Buscar</button>
+<button type="button" className="ml-1 me-2 btn btn-success" onClick={()=>verInforme("Rango")} >Buscar</button>
+<button type="button" className="ml-1 btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleMasVendido">Producto mas vendido</button>
 </div> 
 </div>
  </div>            
@@ -394,7 +417,7 @@ datosGanacias.map((item,index)=>(
             <th>Fecha</th>
             <th>Cliente</th>
              <th>Total vendido</th>
-          {/**   <th>Detalle</th>*/} 
+            <th>Detalle</th>
            
           </tr>
         </thead>
@@ -406,9 +429,8 @@ datosVentas.map((item,index)=>(
   <td>{moment.utc(item.fecha).format("DD/MM/YYYY")}</td>
   <td>{item.cliente}</td> 
   <td>{item.total}</td>
-{/**
-  <td ><button  type="button" className="btn btn-sm-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={(e)=>verDetalle(item,e.target)}><i style={{color: "#FABC2A"}} className="fa fa-info-circle gb-primary" aria-hidden="true"></i></button></td>
- */}
+  <td ><i   className="bi bi-info-circle-fill icon-option" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={(e)=>verDetalle(item,e.target)}></i></td>
+
 </tr>
 ))
 
@@ -423,8 +445,8 @@ datosVentas.map((item,index)=>(
 </div>
  
 {/**modal de detalle producto */}
-<div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
+<div className="modal fade " id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog modal-xl">
     <div className="modal-content">
       <div className="modal-header">
         <h5 className="modal-title">Detalle de la venta</h5>
@@ -435,11 +457,11 @@ datosVentas.map((item,index)=>(
       <table className="table-item">
         <thead >
             <tr>
-              <th>#</th>
-              <th>Descripcion</th>
-              <th>Rollo</th>
-              <th>Yarda</th>
-              <th>Precio </th>
+              <th>Código</th>
+              <th>No. de lote</th>
+              <th>Descripción</th>         
+              <th>Cantidad</th>
+              <th>Precio</th>
               <th>Subtotal </th>
             </tr>
           </thead>
@@ -447,12 +469,12 @@ datosVentas.map((item,index)=>(
         { detalle ?
              detalle.map((item, index) =>(
               <tr key={index} >
-                 <td>{item.idfactura}</td>
-                 <td>{item.descripcion}</td>
-                  <td>{item.rollo}</td>
-                 <td>{item.yarda}</td>  
+                 <td>{item.id_producto}</td>
+                 <td>{item.idlote}</td>
+                  <td>{item.descripcion}</td>
+                 <td>{item.cantidad}</td>  
                  <td>{item.precio}</td>
-                 <td>{item.total}</td>
+                 <td>{item.subtotal}</td>
                </tr>
              )) 
              : null
@@ -472,8 +494,55 @@ datosVentas.map((item,index)=>(
     </div>
   </div>
 </div>
-{/**finañ del modal */}
+{/**final del modal */}
 
+{/**modal de producto mas vendido */}
+<div className="modal fade " id="exampleMasVendido" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog modal-xl">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title">Producto mas vendido</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+      <div className="table-wrap">
+      <table className="table-item">
+        <thead >
+            <tr>
+              <th>Codigo</th>
+              <th>Descripción</th>
+              <th>Cantidad</th>
+           
+            </tr>
+          </thead>
+         <tbody>
+        { masVendido.length >0  ?
+             masVendido.map((item, index) =>(
+              <tr key={index} >
+                 <td>{item.id_producto}</td>
+                 <td>{item.nombre}</td>
+                  <td>{item.cantidad_vendida}</td>
+              
+               </tr>
+             )) 
+             : null
+             
+        
+             }
+        
+         </tbody>
+        </table>
+
+      </div>
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Salir</button>
+      
+      </div>
+    </div>
+  </div>
+</div>
+{/**final del modal  prodcuto mas vendido*/}
  </div>
 
     );

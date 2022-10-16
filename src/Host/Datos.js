@@ -58,55 +58,9 @@ class Datos{
         .catch((error)=>error);  
     }
 
-    UploadImg(datos){
-        console.log(datos)
-        const formDatos=new FormData();
-        formDatos.append('foo',datos);
-         
-        return fetch(host+'img/upload',{
-         method:"POST",
-        
-         body:formDatos
-        })
-         .then((response)=>response.json())
-         .then(result => result)
-         .catch((error)=>console.log("error: "+error))
-    }
-    ViewImg(name){
-      return  fetch(`${host}imgs/view/${name}`,{
-            method: 'GET',
-            mode:'cors',
-            headers:{
-              'Accept': 'application/json',
-              "X-Content-Type-Options": "nosniff"
-           
-
-
-            },
-           
-          })
-          .then((response)=>response)
-          .then(resdatos=>resdatos)
-          .catch((error)=>console.log(error))  
-    }
+    consultarInforme(tabla,datos){
     
-    DeleteImg(name){
-return  fetch(`${host}/img/delete/${name}`,{
-            method: 'GET',
-            headers:{
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-           
-          })
-          .then((response)=>response.json())
-          .then(resdatos=>resdatos)
-          .catch((error)=>console.log(error))
-    }
-
-    consultarInforme(datos){
-    
-        return  fetch(host+`informe`,Header.headerPostCB(datos))
+        return  fetch(host+`${tabla}`,Header.headerPostCB(datos))
                   .then(response => response.json())
                   .then((responsedatos) => responsedatos)
                   .catch((error) => error);

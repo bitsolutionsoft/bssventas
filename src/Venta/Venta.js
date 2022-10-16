@@ -174,7 +174,7 @@ async function guardarCliente(e){
         let text = buscarTexto.replace(/^\w/, (c) => c.toLowerCase());
         setbuscar(buscarTexto);
         setdatos(encontrado.filter(function (item) {
-            return item.nombre.toLowerCase().includes(text) || item.color.toLowerCase().includes(text) || item.estilo.toLowerCase().includes(text) || item.ubicacion.toLowerCase().includes(text);
+            return item.nombre.toLowerCase().includes(text) || item.presentacion.toLowerCase().includes(text) || item.especificacion.toLowerCase().includes(text);
         }).map(function ({ idproducto, nombre, presentacion, especificacion, stock,  cantidad_mimima,cantidad_maxima,estado,idlote, cantidad,precio_compra, precio_mayorista,precio_unidad, statuslote }) {
             return { idproducto, nombre, presentacion, especificacion, stock,  cantidad_mimima,cantidad_maxima,estado,idlote, cantidad,precio_compra, precio_mayorista,precio_unidad, statuslote }
         })
