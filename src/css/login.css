@@ -1,9 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Poppins&display=swap');
 @import url('color.css');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins:wght@300&family=Roboto:wght@300&display=swap');
+body{
+  font-family: 'Poppins', sans-serif;
+}
+
 
 .login{
 background-image: url('../Img/Login.jpg');
-background-size: 100%;
+background-size: cover;
 position: absolute;
 top: 0;
 left: 0;

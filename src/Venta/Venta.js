@@ -30,6 +30,7 @@ function Venta(props) {
     const [descuento,setDescuento]=useState("");
     const [cambio,setCambio]=useState(0.00);
     const [recibido,setRecibido]=useState("");  
+    const [CodeBarr, setCodeBarr] = useState("")
     
     const [nombre, setNombre] = useState("");
     const [apellido, setApellido] = useState("");
@@ -84,9 +85,8 @@ async function numero_orden() {
         if (dat !== null) {
           if(dat.message==="Success"){
             console.log( dat);
-         
-
             setdatos(dat.res);
+            setencontrado(dat.res)
           }
         }
     }
@@ -169,17 +169,18 @@ async function guardarCliente(e){
         
     }
 
-    const Busqueda = (buscarTexto) => {
-      
+    const Busqueda = (e) => {
+      let buscarTexto=e.target.value;
         let text = buscarTexto.replace(/^\w/, (c) => c.toLowerCase());
         setbuscar(buscarTexto);
-        setdatos(encontrado.filter(function (item) {
-            return item.nombre.toLowerCase().includes(text) || item.presentacion.toLowerCase().includes(text) || item.especificacion.toLowerCase().includes(text);
-        }).map(function ({ idproducto, nombre, presentacion, especificacion, stock,  cantidad_mimima,cantidad_maxima,estado,idlote, cantidad,precio_compra, precio_mayorista,precio_unidad, statuslote }) {
-            return { idproducto, nombre, presentacion, especificacion, stock,  cantidad_mimima,cantidad_maxima,estado,idlote, cantidad,precio_compra, precio_mayorista,precio_unidad, statuslote }
-        })
-        );
+
+        setdatos(encontrado.filter(function(item){
+          return item.nombre.toLowerCase().includes(text) || item.presentacion.toLowerCase().includes(text) || item.especificacion.toLowerCase().includes(text);
+        }).map(function(element){
+          return element
+        }))
     }
+  
 
   
         
@@ -569,15 +570,39 @@ const nuevaVenta = () => {
   }
  }
 
+ //lector de codigo de barra 
+ const codeBarr = (e) => { 
+      console.log(e)
+      setCodeBarr(e.target.value)
+  if(e.key !== " "){
+
+let idpro=e.target.value;
+  let item=returnItem(idpro)
+  console.log(item)
+  if(item){
+    AgregarProducto(item,1)
+  }
+  }
+  }
+const returnItem = (idproducto) => { 
+  for(let i in datos){
+    if(i.idproducto === idproducto){
+      return i
+    }
+  }
+
+ }
+
 return (
-<div className="">
+<div >
   {/**   */} 
   <div className={visible === true ? 'modal visible' : 'modal'}>
     
 <div className='' id="fct" tabindex="-1">
   <div className="modal-dialog">
     <div className="modal-content">
-      <div className="modal-header">
+      <div className="modal
+      -header">
         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={()=>{nuevaVenta()}}></button>
       </div>
       <div className="modal-body" id='boleta'>
@@ -747,64 +772,9 @@ return (
 </form>
 {/** fin del modal de ingreso cliente 
   * ---------------------------------------------------------------------------
-  * comienzo del modal de precio 
- */}
- 
- <div className="modal fade "  id="precioModal" tabIndex="-1" aria-labelledby="precioModalLabel" aria-hidden="true"  >
-  <div className="modal-dialog  modal-dialog-scrollable">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title">Seleccione el Precio</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-      <div className="form-outline mb-4">
-    
-        <input type="text" id="form1Example1" className="form-control" value={idproducto}  hidden={true} onChange={()=>{}} />
-   <label className="form-label" htmlFor="form1Example1" >Precio actual: Q{precioActual}</label>
-  </div>
+  */ }
+  {/*comienzo del modal de precio */}
 
-  <div className="form-outline mb-4">
-      <h6>Precio por Rollo</h6>
-      {precios ? 
-      <select className="form-select" id="floatingSelectGrid" data-live-search="true" data-size="8" aria-label="Floating label select example" value={nuevoPrecio} onChange={(e)=>setNuevoPrecio(e.target.value)}>
-      <option value="" >Seleccionar precio</option>
-     { precios.map((item, index) =>(
-        
-      <option key={index} value={item.preciorollo} >{" " +item.preciorollo}</option>
-     
-      ))
-     }
- </select>
-      
-      :null}
-     
-  </div>
-  <div className="form-outline mb-4">
-      <h6>Precios por yarda</h6>
-      {precios ? 
-      <select className="form-select" id="floatingSelectGrid" data-live-search="true" data-size="8" aria-label="Floating label select example" value={nuevoPrecio} onChange={(e)=>setNuevoPrecio(e.target.value)}>
-       <option value="" >Seleccionar precio</option>
-     { precios.map((item,index) =>(
-        
-      <option key={index} value={item.precioyarda} >{" " +item.precioyarda}</option>
-     
-      ))
-     }
- </select>
-      
-      :null}
-     
-  </div>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={()=>ActualizarPrecio()} >Aplicar</button>
-      </div>
-    </div>
-  </div>
-</div>
- {/** final del modal precio  _____________________________________________________*/}
  
     <div className="row">
  
@@ -812,13 +782,20 @@ return (
           
     
         <h6>Lista de producto Disponible</h6>
-        <SearchBar2
+        <div className='row' >
+          <div className='col-12 col-sm-12 col-md-8 col-lg-8'>   
+          <SearchBar2
             onChange={Busqueda} 
             value={buscar} 
             placeholder="Buscar producto..."  
           
-            />  
-
+            />   
+            </div>
+     <div className='col-12 col-sm-12 col-md-4 col-lg-4'>  
+      <input className="form-control" placeholder='Codigo de barra' type="text" value={CodeBarr} onKeyPress={(e)=>codeBarr(e)} />
+     </div>
+          
+</div>
             <div className="col div-secc">
                 <div className="table-wrap ">
                     <table className="table-item" >
@@ -837,7 +814,7 @@ return (
                             {datos ? datos.map((item,index) => (
                                 <tr key={index} onClick={()=>{AgregarProducto(item,1)}}>
                                     <td >{item.idproducto}</td>
-                                    <td >{item.nombre+ " "} {item.presentacio+ " "} {item.especificacion}</td>
+                                    <td >{item.nombre+ " "} {item.presentacion+ " "} {item.especificacion}</td>
                                     <td >{item.cantidad}</td>    
                                     <td >{Quetzal(item.precio_mayorista)}</td> 
                                     <td >{Quetzal(item.precio_unidad)}</td>
@@ -963,59 +940,7 @@ return (
 
 
     </div>
-    {/**detalles del comprobante de venta 
-    <div className="rowfacd" id="facturas">
-        <div>
-            <h5>Comprobante  compra</h5>
-            
-        </div>
 
- <div className="colfac">
-                    <table className="table">
-                  
-                        <thead >
-                            <tr>
-                                <th >cantidad</th> 
-                                <th >Descripcion</th>
-                                <th >precio</th>
-                                <th  >Subtotal</th>
-                             
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {datosv ? datosv.map((item,index) => (
-                            <tr key={index} >
-                          <td  >{item.cantidad}</td>
-                                <td  >{item.descripcion}</td>
-                               
-                                <td  >{item.precio}</td>
-                                
-                                
-                               
-                                <td >{item.total}</td>   
-                              
-                            </tr>
-                            ))
-                            : null
-                            }
-                        </tbody>
-                    </table>
-                </div>
-  
-    <div className="rowfoot" id="rowfoot">
-    <div className="colf">
-                    <span>Subtotal: {"Q "+subtotal+" "}</span>
-                    </div>
-                    <div className="colf">   
-                    <span>Descuento: { "Q "+ descuento}</span> 
-                    </div>                   
-                    <div className="colf">
-                    <span>Total: {"Q "+total+" "} </span> 
-                    </div> 
-    </div>
-</div>
-*/}
 </div>
 
 

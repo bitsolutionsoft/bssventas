@@ -1,7 +1,9 @@
 import React from "react";
 import "../css/estilo.css";
+
 function SearchBar2(props) {
   return (
+    
     <div className="row mb-2">
       <div className="col">
         <div className="input-group form-group ">
@@ -12,7 +14,7 @@ function SearchBar2(props) {
             ></span>
             <input
               type="text"
-              className="form-control "
+              className="form-control"
               placeholder={props.placeholder}
               value={props.value}
               onChange={props.onChange}
@@ -20,8 +22,8 @@ function SearchBar2(props) {
           </div>
         </div>
       </div>
-      
     </div>
-  );
+ 
+   );
 }
 export default SearchBar2;

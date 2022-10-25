@@ -164,9 +164,9 @@ var myInput = document.getElementById("exampleModal");
       setbuscar(buscarTexto);
       
       setdatos(encontrado.filter((item)=>{
-          return   item.idproducto.toLowerCase().includes(text) ;   
-        }).map(({idLote, idproducto, cantidad, precio_mayorista,precio_compra,precio_unidad, estado,vence})=>{
-          return{idLote, idproducto, cantidad, precio_mayorista,precio_compra,precio_unidad, estado,vence}
+          return   item.nombre.toLowerCase().includes(text) ;   
+        }).map((element)=>{
+          return element
         })
        );
       
@@ -229,7 +229,7 @@ var myInput = document.getElementById("exampleModal");
   <div className="form-outline mb-4">
       <label className="form-label" htmlFor="form1Example1" >Cantidad</label>
   
-        <input type="text" id="form1Example1" className="form-control" value={cantidad}  onChange={(e) => setCantidad(e.target.value)} required/>
+        <input type="number" id="form1Example1" className="form-control" value={cantidad}  onChange={(e) => setCantidad(e.target.value)} required/>
       
 
   </div> 

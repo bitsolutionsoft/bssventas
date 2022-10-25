@@ -1,5 +1,6 @@
 import React from "react";
 import "../css/estilo.css";
+
 function SearchBar(props) {
   return (
     <div className="row mb-2">

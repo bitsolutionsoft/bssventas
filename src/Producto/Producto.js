@@ -140,8 +140,8 @@ var myInput = document.getElementById("exampleModal");
       
       setdatos(encontrado.filter(function(item){
           return   item.nombre.toLowerCase().includes(text) || item.presentacion.toLowerCase().includes(text) || item.especificacion.toLowerCase().includes(text);   
-        }).map(function({idproducto, nombre, presentacion, especificacion,stock,cantidad_maxima,cantidad_minima,lote, estado}){
-          return{idproducto, nombre, presentacion, especificacion,stock,cantidad_maxima,cantidad_minima,lote, estado}
+        }).map(function(element){
+          return element
         })
        );
       

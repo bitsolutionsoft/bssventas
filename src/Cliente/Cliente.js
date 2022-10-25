@@ -151,9 +151,9 @@ var myInput = document.getElementById("exampleModal");
       setbuscar(buscarTexto);
       
       setdatos(encontrado.filter((item)=>{
-          return   item.nombre.toLowerCase().includes(text) ;   
-        }).map(({idcliente, nombre, apellido, telefono,direccion,sexo,nit, estado})=>{
-          return{idcliente, nombre, apellido, telefono,direccion,sexo,nit, estado}
+          return   item.nombre.toLowerCase().includes(text) || item.apellido.toLowerCase().includes(text) ;   
+        }).map((element)=>{
+          return element
         })
        );
       

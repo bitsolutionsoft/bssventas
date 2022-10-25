@@ -385,9 +385,9 @@ return(
 datosGanacias.map((item,index)=>(
   <tr  key={index} >  
   <td></td>          
-  <td>{item.ventas > 0 ? item.ventas.toFixed(2) : null}</td>
-  <td>{item.compra > 0 ? item.compra.toFixed(2) : null}</td> 
-  <td>{item.ganancia > 0 ? item.ganancia.toFixed(2) : null}</td>
+  <td>{item.ventas !== null ? item.ventas.toFixed(2) : null}</td>
+  <td>{item.compra !==null ? item.compra.toFixed(2) : null}</td> 
+  <td>{item.ganancia !==null ? item.ganancia.toFixed(2) : null}</td>
 </tr>
 ))
 

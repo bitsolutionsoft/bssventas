@@ -149,14 +149,13 @@ function Empleado(props)  {
             const Busqueda =(e)=>{
               console.log(e.target.value);
                 let buscarTexto=e.target.value;
-                setbuscar(buscarTexto);
                 let text=buscarTexto.replace(/^\w/,(c) =>c.toLowerCase());
                 setbuscar(buscarTexto);
                 
                 setdatos(encontrado.filter(function(item){
                     return item.nombre.toLowerCase().includes(text) || item.apellido.toLowerCase().includes(text) ||  item.estado.toLowerCase().includes(text) ;   
-                  }).map(function({idempleado, nombre, apellido,direccion, dpi, telefono, correo, estado}){
-                    return{idempleado, nombre, apellido,direccion, dpi, telefono, correo, estado}
+                  }).map(function(element){
+                    return element
                   })
                  );
                 
