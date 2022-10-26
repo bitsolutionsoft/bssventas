@@ -574,7 +574,7 @@ const nuevaVenta = () => {
  const codeBarr = (e) => { 
       console.log(e)
       setCodeBarr(e.target.value)
-  if(e.key !== " "){
+  if(e.keyCode===13){
 
 let idpro=e.target.value;
   let item=returnItem(idpro)
@@ -586,8 +586,8 @@ let idpro=e.target.value;
   }
 const returnItem = (idproducto) => { 
   for(let i in datos){
-    if(i.idproducto === idproducto){
-      return i
+    if(datos[i].idproducto === idproducto){
+      return datos[i];
     }
   }
 
