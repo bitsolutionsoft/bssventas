@@ -818,7 +818,7 @@ return (
                                     <td >{item.cantidad}</td>    
                                     <td >{Quetzal(item.precio_mayorista)}</td> 
                                     <td >{Quetzal(item.precio_unidad)}</td>
-                                    <td >{item.vence}</td>
+                                    <td >{moment(item.vence).format("DD/MM/YYYY")}</td>
                                   
                                 </tr>
                             ))

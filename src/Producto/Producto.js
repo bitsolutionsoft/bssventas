@@ -210,7 +210,7 @@ itemlote,
         
   </div>
   <div className="form-outline mb-4">
-      <label className="form-label" htmlFor="form1Example1" >Presentación</label>
+      <label className="form-label" htmlFor="form1Example1" >Empresa</label>
       
         <input type="text" id="form1Example1" className="form-control" value={presentacion}  onChange={(e) => setPresentacion(e.target.value)} required />
         
@@ -263,12 +263,12 @@ itemlote,
           <tr>
             <th>#</th>
             <th>Nombre</th>
-            <th>Presentación</th>
+            <th>Empresa</th>
             <th>Especificacion</th>
-            <th>Stock</th>  
+            <th>Existencia</th>  
             <th></th>
-            <th>C/Mim</th>
             <th>C/Max</th>
+            <th>C/Min</th>
            
             <th>Lotes</th>
             <th>Estado</th>
