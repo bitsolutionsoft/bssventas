@@ -10,6 +10,7 @@ import { ItemProducto } from '../Context/Context';
 import moment from 'moment';
 function Producto(props)  {
     const [idproducto, setIdProducto] = useState("");
+    const [idproveedor, setIdproveedor] = useState("");
     const [codbarr, setCodebarr] =useState("");
     const [nombre, setNombre] = useState("");
     const [presentacion, setPresentacion] = useState("");
@@ -19,6 +20,8 @@ function Producto(props)  {
     const [estado, setEstado] = useState("Activo");
     
     const [datos, setdatos] = useState([]);  
+    
+    const [datosp, setdatosp] = useState([]);  
     const [encontrado, setencontrado] = useState([]);
     const [buscar, setbuscar] = useState("");
     const [accion, setAccion] = useState("new");
@@ -32,9 +35,21 @@ function Producto(props)  {
 
     useEffect(()=>{
       ConsultarProducto();
+      ConsultarProveedor();
       console.log(nombre)
     },[])
     
+    const ConsultarProveedor=async()=>{
+      const datos=await Datos.Consulta("proveedor");
+      if(datos!==null){
+        if(datos.message==="Success"){
+         console.log(datos.res);
+        setdatosp(datos.res);
+       // setencontrado(datos.res)   
+        }
+        
+      }
+    }
     const ConsultarProducto=async()=>{
       const datos=await Datos.Consulta("producto/all");
       if(datos!==null){
@@ -234,15 +249,28 @@ itemlote,
         
   </div>
   <div className="form-outline mb-4">
-      <label className="form-label" htmlFor="form1Example1" >Empresa</label>
-      
-        <input type="text" id="form1Example1" className="form-control" value={presentacion}  onChange={(e) => setPresentacion(e.target.value)} required />
-        
-  </div>
+  <label className="form-label" htmlFor="form1Example1" >Empresa</label>
+ 
+                  <select className="form-select form-select-sm" id="floatingSelectGrid" data-live-search="true" data-size="8" aria-label="Floating label select example" value={idproveedor} onChange={(e)=>setIdproveedor(e.target.value)}>
+                         {datosp ? datosp.map((item,index) =>(
+                         <option key={index} value={item.idproveedor} data-tokens={item.nombre}>{item.nombre}</option>))
+                         :
+                        null
+                          }
+                    </select>
+              
+              </div>
+
   <div className="form-outline mb-4">
        <label className="form-label" htmlFor="form1Example1" >Especificación</label>
         <input type="text" id="form1Example1" className="form-control" value={especificacion}  onChange={(e) => setEspecificacion(e.target.value)} required/>
 
+  </div>  
+  <div className="form-outline mb-4">
+      <label className="form-label" htmlFor="form1Example1" >Detalle</label>
+      
+        <input type="text" id="form1Example1" className="form-control" value={presentacion}  onChange={(e) => setPresentacion(e.target.value)} required />
+        
   </div>
   <div className="form-outline mb-4">
        <label className="form-label" htmlFor="form1Example1" >Cantidad Maxima</label>
