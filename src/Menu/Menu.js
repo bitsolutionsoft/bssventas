@@ -11,7 +11,7 @@ import Venta  from '../Venta/Venta';
 import Informe from '../Informe/Informe';
 import { DataContext } from '../Context/Context';
 import {Info} from '../Host/Info';
-
+import Proveedor from '../Proveedor/Proveedor';
 import Ajuste from './Ajuste';
 
 function Menu(props)  {
@@ -103,6 +103,13 @@ const acceso = (modulo) => {
                       return <AlertModel tipo="warning" titulo="Aviso" msg="No tienes acceso a Informe" />;
                    }
                
+
+                   case 'Proveedor':
+                    if(acceso("Proveedor")){
+                      return <Proveedor />
+                   }else{
+                      return <AlertModel tipo="warning" titulo="Aviso" msg="No tienes acceso a Proveedor" />;
+                   }
                 default:  
               //  return <AlertModel tipo="success" titulo="Aviso" msg="Bienvenido" />;
                 return <Venta/>;
@@ -184,6 +191,11 @@ const acceso = (modulo) => {
                                 </div>
                         </li>
                       
+                        <li onClick={()=>setScreen("Proveedor")} className={screen === "Proveedor" ? nav_active : nav_item}>
+                        <div    className=" px-0 align-middle">
+                                <i className="bi bi-graph-up-arrow" ></i> <span className="ms-1 d-none d-md-none d-xl-inline">Empresa</span>
+                                </div>
+                        </li>
                      
                         <li onClick={cerrarSesion} className={screen === "Salir" ? nav_active : nav_item}>
                             <div    className="px-0 align-middle">

@@ -571,23 +571,35 @@ const nuevaVenta = () => {
  }
 
  //lector de codigo de barra 
- const codeBarr = (e) => { 
-      console.log(e)
-      setCodeBarr(e.target.value)
-  if(e.keyCode===13){
+ const codeBarr =async (e) => { 
+  //  console.log(e.target.key)
+      setCodeBarr(e.target.key)
 
-let idpro=e.target.value;
-  let item=returnItem(idpro)
+  if(e.key==="Enter"){
+
+let idpro= e.target.value;
+console.log(idpro)
+  let item=  returnItem(idpro)
+
   console.log(item)
+
   if(item){
     AgregarProducto(item,1)
+    setCodeBarr("")
+  }else{
+    setCodeBarr("")
   }
   }
+
+  
   }
-const returnItem = (idproducto) => { 
+
+const returnItem = (codigobarra) => { 
   for(let i in datos){
-    if(datos[i].idproducto === idproducto){
+    if(datos[i].codbarr === codigobarra){
+    
       return datos[i];
+     
     }
   }
 

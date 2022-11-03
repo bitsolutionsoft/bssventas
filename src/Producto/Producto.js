@@ -10,6 +10,7 @@ import { ItemProducto } from '../Context/Context';
 import moment from 'moment';
 function Producto(props)  {
     const [idproducto, setIdProducto] = useState("");
+    const [codbarr, setCodebarr] =useState("");
     const [nombre, setNombre] = useState("");
     const [presentacion, setPresentacion] = useState("");
     const [especificacion, setEspecificacion] = useState(""); 
@@ -47,6 +48,7 @@ function Producto(props)  {
 
     const limpiar=()=>{
       setIdProducto(0);
+      setCodebarr("")
       setNombre("");
       setEspecificacion("");
       setPresentacion("");
@@ -56,7 +58,8 @@ function Producto(props)  {
     }
     const Ingresar=async()=>{
       let datos={
-        idproducto:0,
+        idproducto: 0,
+        codbarr:codbarr,
         nombre:nombre,
         presentacion:presentacion,
         especificacion:especificacion,
@@ -79,6 +82,7 @@ function Producto(props)  {
     const Actualizar=async()=>{
       let datos={
         idproducto:idproducto,
+        codbarr:codbarr,
         nombre:nombre,
         presentacion:presentacion,
         especificacion:especificacion,
@@ -119,6 +123,7 @@ function Producto(props)  {
     }
     const AbrirActualizar=(datos,e)=>{
 setIdProducto(datos.idproducto);
+setCodebarr(datos.codbarr);
 setNombre(datos.nombre);
 setPresentacion(datos.presentacion);
 setEspecificacion(datos.especificacion);
@@ -145,6 +150,17 @@ var myInput = document.getElementById("exampleModal");
         })
        );
       
+        }
+        const vefrificarCodigoExistente=(codigo)=>{ 
+          for(let  i in datos){
+            if(datos[i].codbarr===codigo){
+                 setCodebarr("")
+              swal("Producto","ya existente","warning");
+           
+            }else{
+              setCodebarr(codigo)
+            }
+          }
         }
     
   const AbrirIngreso=(e)=>{
@@ -199,8 +215,13 @@ itemlote,
       </div>
       <div className="modal-body">
       <div className="form-outline mb-4">
-         <label className="form-label" htmlFor="form1Example1" hidden= {true} >Codigo de empleado</label>   
+         <label className="form-label" htmlFor="form1Example1" hidden= {true} >Codigo del producto</label>   
     <input type="text" id="form1Example1" className="form-control" hidden= {true} value={idproducto} onChange={(e) => setIdProducto(e.target.value)} />
+
+  </div>
+  <div className="form-outline mb-4">
+         <label className="form-label" htmlFor="form1Example1"  >Codigo de barra</label>   
+    <input type="text" id="form1Example1" className="form-control" value={codbarr} onChange={(e) => vefrificarCodigoExistente(e.target.value)} />
 
   </div>
   <div className="form-outline mb-4">
@@ -281,7 +302,7 @@ itemlote,
            datos.map((item,index) =>(
             <tr key={index}>
                
-               <td>{item.idproducto}</td>
+               <td>{item.codbarr}</td>
                <td>{item.nombre}</td>
                <td>{item.presentacion}</td>
                <td>{item.especificacion}</td>
