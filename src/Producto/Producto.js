@@ -75,6 +75,7 @@ function Producto(props)  {
       let datos={
         idproducto: 0,
         codbarr:codbarr,
+        idproveedor:idproveedor,
         nombre:nombre,
         presentacion:presentacion,
         especificacion:especificacion,
@@ -98,6 +99,7 @@ function Producto(props)  {
       let datos={
         idproducto:idproducto,
         codbarr:codbarr,
+        idproveedor:idproveedor,
         nombre:nombre,
         presentacion:presentacion,
         especificacion:especificacion,
@@ -139,6 +141,7 @@ function Producto(props)  {
     const AbrirActualizar=(datos,e)=>{
 setIdProducto(datos.idproducto);
 setCodebarr(datos.codbarr);
+setIdproveedor(datos.idproveedor);
 setNombre(datos.nombre);
 setPresentacion(datos.presentacion);
 setEspecificacion(datos.especificacion);
@@ -166,9 +169,27 @@ var myInput = document.getElementById("exampleModal");
           return element
         })
        );
-      
+      }
+       const BusquedaPorProveedor=(codigo)=>{
+        let buscarTexto=ObtenerProveedor(codigo);
+        let text= buscarTexto.replace(/^\w/,(c) =>c.toLowerCase()); 
+        setdatos(encontrado.filter(function(item){
+            return   item.empresa.toLowerCase().includes(text);   
+          }).map(function(element){
+            return element
+          })
+         );
       
         }
+        
+        const ObtenerProveedor = (codigo) => { 
+          for (let i in datosp){
+            if(Number(datosp[i].idProveedor) ===Number(codigo)){
+              return datosp[i].empresa;
+            }
+          }
+         }
+
         const vefrificarCodigoExistente=(codigo)=>{ 
           for(let  i in datos){
             if(datos[i].codbarr===codigo){
@@ -214,6 +235,19 @@ itemlote,
             data_bs_target="#exampleModal"
             onClick={AbrirIngreso}
             />
+             <div className="form-outline mb-4">
+  <label className="form-label" htmlFor="form1Example1" >Empresa</label>
+ 
+                  <select className="form-select form-select-sm" id="floatingSelectGrid" data-live-search="true" data-size="8" aria-label="Floating label select example"  onChange={(e)=>BusquedaPorProveedor(e.target.value)}>
+                         {datosp.length > 0 ? datosp.map((item,index) =>(
+                         <option key={index} value={item.idProveedor} data-tokens={item.empresa}>{item.empresa}</option>))
+                         :
+                        null
+                          }
+                    </select>
+              
+              </div>
+
          
 {/**modal para ingreso de empleado */}
 
@@ -252,8 +286,8 @@ itemlote,
   <label className="form-label" htmlFor="form1Example1" >Empresa</label>
  
                   <select className="form-select form-select-sm" id="floatingSelectGrid" data-live-search="true" data-size="8" aria-label="Floating label select example" value={idproveedor} onChange={(e)=>setIdproveedor(e.target.value)}>
-                         {datosp ? datosp.map((item,index) =>(
-                         <option key={index} value={item.idproveedor} data-tokens={item.nombre}>{item.nombre}</option>))
+                         {datosp.length > 0 ? datosp.map((item,index) =>(
+                         <option key={index} value={item.idProveedor} data-tokens={item.empresa}>{item.empresa}</option>))
                          :
                         null
                           }
@@ -315,8 +349,9 @@ itemlote,
           <tr>
             <th>#</th>
             <th>Nombre</th>
-            <th>Empresa</th>
-            <th>Especificacion</th>
+            <th>Empresa</th>      
+            <th>Especificacion</th>      
+            <th>Detalle</th>
             <th>Existencia</th>  
             <th></th>
             <th>C/Max</th>
@@ -335,8 +370,9 @@ itemlote,
                
                <td>{item.codbarr}</td>
                <td>{item.nombre}</td>
+               <td>{item.empresa}</td>
+               <td>{item.especificacion}</td> 
                <td>{item.presentacion}</td>
-               <td>{item.especificacion}</td>
                 <td>{item.stock}</td>
                <td>{item.stock <= item.cantidad_minima ?
                 <i className="bi bi-x-circle-fill icon-error"   aria-hidden="true" ></i>

@@ -9,12 +9,13 @@ import {Quetzal, Dolar} from '../Funciones/Moneda';
 
 function Proveedor(props)  {
     const [idproveedor, setIdProveedor] = useState("");
-    const [nombre, setNombre] = useState("");
+    const [nombre, setNombre] = useState(null);
    const [apellido, setApellido] = useState(null);
     const [telefono, setTelefono] = useState(0); 
+        const [empresa, setEmpresa] = useState(""); 
     const [direccion, setDreccion] = useState(null);
-    const [nit, setNit] = useState(null); 
-    const [sexo, setSexo] = useState(null); 
+
+
     const [estado, setEstado] = useState(null);
 
     const [datos, setdatos] = useState([]);  
@@ -50,11 +51,12 @@ function Proveedor(props)  {
 
     const limpiar=()=>{
       setIdProveedor(0);
-      setNombre("");
-      /*setTelefono("");
+         setEmpresa("");
+      /*setNombre("");
+      setTelefono("");
       setApellido("");
       setDreccion("");
-      setNit("");
+   
       setSexo("");
       setEstado("Activo");*/
     }
@@ -67,8 +69,8 @@ function Proveedor(props)  {
         telefono:telefono,
         direccion:direccion,
      
-        nit:nit,
-        sexo:sexo,
+        empresa:empresa,
+    
         estado:estado
       }
    
@@ -92,8 +94,8 @@ function Proveedor(props)  {
         telefono:telefono,
         direccion:direccion,
      
-        nit:nit,
-        sexo:sexo,
+        empresa:empresa,
+
         estado:estado
       }
       console.log(datos);
@@ -131,11 +133,12 @@ function Proveedor(props)  {
     }
     const AbrirActualizar=(datos,e)=>{
 setIdProveedor(datos.idproveedor);
-setNombre(datos.nombre);
-/*setApellido(datos.apellido);
+setEmpresa(datos.empresa);
+/*setNombre(datos.nombre);
+setApellido(datos.apellido);
 setTelefono(datos.telefono);
 setDreccion(datos.direccion);
-setNit(datos.nit);
+
 setSexo(datos.sexo);
 setEstado(datos.estado)*/
 setAccion("update");
@@ -155,7 +158,7 @@ var myInput = document.getElementById("exampleModal");
       setbuscar(buscarTexto);
       
       setdatos(encontrado.filter((item)=>{
-          return   item.nombre.toLowerCase().includes(text) || item.apellido.toLowerCase().includes(text) ;   
+          return   item.empresa.toLowerCase().includes(text) ;   
         }).map((element)=>{
           return element
         })
@@ -209,12 +212,18 @@ var myInput = document.getElementById("exampleModal");
 
   </div>
   <div className="form-outline mb-4">
+      <label className="form-label" htmlFor="form1Example1" >Nombre de empresa</label>
+  
+        <input type="text"  id="form1Example1" className="form-control" value={empresa}  onChange={(e) => setEmpresa(e.target.value)} required/>
+      
+  </div>
+ {/* <div className="form-outline mb-4">
       <label className="form-label" htmlFor="form1Example1">Nombre</label>
    
           <input type="text" id="form1Example1" className="form-control" value={nombre}  onChange={(e) => setNombre(e.target.value)}  required/>
            
   </div>
-  {/*<div className="form-outline mb-4">
+  <div className="form-outline mb-4">
       <label className="form-label" htmlFor="form1Example1" >Apellido</label>
   
         <input type="text" id="form1Example1" className="form-control" value={apellido}  onChange={(e) => setApellido(e.target.value)} required/>
@@ -236,12 +245,7 @@ var myInput = document.getElementById("exampleModal");
   </div>
  
 
-  <div className="form-outline mb-4">
-      <label className="form-label" htmlFor="form1Example1" >Número de Nit</label>
   
-        <input type="text"  id="form1Example1" className="form-control" value={nit}  onChange={(e) => setNit(e.target.value)} required/>
-      
-  </div>
 
 
   <div className="form-outline mb-4 center">
@@ -292,13 +296,15 @@ var myInput = document.getElementById("exampleModal");
   <thead >
           <tr>
             <th>#</th>
+            <th>Empresa</th>
+          {/* 
             <th>Nombre</th>
-          {/*  <th>Apellido</th>
+           <th>Apellido</th>
 
             <th>Telefono</th>
             <th>Dirección</th>
-            <th>Sexo</th>
-            <th>Nit</th>
+          
+          
           
 <th>Estado</th>*/}
 
@@ -311,12 +317,14 @@ var myInput = document.getElementById("exampleModal");
             <tr key={index}>
                
                <td>{item.idproveedor}</td>
+                <td>{item.empresa}</td>
+              {/*
                <td>{item.nombre}</td>
-              {/*} <td>{item.apellido}</td>
+              <td>{item.apellido}</td>
                <td>{item.telefono}</td>
                <td>{item.direccion}</td>
                <td>{item.sexo}</td>
-               <td>{item.nit}</td>
+             
            
 
                {item.estado === "Activo" ? <td ><p className="activo">{item.estado}</p></td>:

@@ -179,6 +179,36 @@ var myInput = document.getElementById("exampleModal");
       myInput.focus();
     });
   }
+  const AgregarAlLote = (item) => { 
+    swal("Ingrese la cantidad a agregar: ",{
+      content:"input",
+    }).then(async(value)=>{
+       let nuevoItem={
+      idlote:item.idlote,
+      idproducto:item.idproducto,
+      cantidad:Number(item.cantidad) + Number(value),
+      precio_mayorista:item.precio_mayorista,
+      precio_compra:item.precio_compra,
+   
+      precio_unidad:item.precio_unidad,
+      vence:moment(item.vence).format("YYYY-MM-DD"),
+      estado:item.estado
+       }
+
+       let Lote=await Datos.ActualizarReg("lote",nuevoItem);
+       if(Lote !== null){
+         if(Lote.message==="Success"){
+           swal("Lote","Ingresdo exitosamente","success");
+           limpiar();
+           ConsultarLote(itemlote.idproducto);
+         }else{
+           swal("Lote","No se pudo Ingresar, verifique los datos","warning");
+         }
+        }
+    });
+  
+    
+   }
     return(
         <div>
             <div className="mb-2">    
@@ -299,10 +329,10 @@ var myInput = document.getElementById("exampleModal");
          
             <th>Producto</th>
             <th>Cantidad</th>  
-            <th>Precio de compra</th>
-            <th>Precio mayorista</th>
-                     <th>Precio_unidad</th>      
-            <th>Fecha de vencimiento</th>
+            <th>P/compra</th>
+            <th>P/mayorista</th>
+                     <th>P/unidad</th>      
+            <th>Vence</th>
           
        
             <th>Estado</th>
@@ -334,6 +364,7 @@ var myInput = document.getElementById("exampleModal");
   </i>
   <ul className="dropdown-menu " aria-labelledby="dropdownMenuButton2">
   <li className=" dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={(e)=>AbrirActualizar(item,e.target)} >Editar</li>
+  <li className=" dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleAgregar" onClick={(e)=>AgregarAlLote(item)} >Agrega al mismo lote</li>
     <li  className="dropdown-item" onClick={()=>Eliminar(item)}>Eliminar</li>
 
       
