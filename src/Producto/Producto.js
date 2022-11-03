@@ -133,17 +133,20 @@ var myInput = document.getElementById("exampleModal");
     });
     }
     const Busqueda =(e)=>{
+      let soloNumero=/^[0-9]+$/;
+
       let buscarTexto=e.target.value;
       setbuscar(buscarTexto);
-      let text=buscarTexto.replace(/^\w/,(c) =>c.toLowerCase());
+      let text=buscarTexto.match(soloNumero) !==null ? buscarTexto : buscarTexto.replace(/^\w/,(c) =>c.toLowerCase());
       setbuscar(buscarTexto);
       
       setdatos(encontrado.filter(function(item){
-          return   item.nombre.toLowerCase().includes(text) || item.presentacion.toLowerCase().includes(text) || item.especificacion.toLowerCase().includes(text);   
+          return   item.idproducto.includes(text) || item.nombre.toLowerCase().includes(text) || item.presentacion.toLowerCase().includes(text) || item.especificacion.toLowerCase().includes(text);   
         }).map(function(element){
           return element
         })
        );
+      
       
         }
     
