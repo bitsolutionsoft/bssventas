@@ -52,10 +52,11 @@ function Producto(props)  {
     }
     const ConsultarProducto=async()=>{
       const datos=await Datos.Consulta("producto/all");
+      console.log(datos)
       if(datos!==null){
         if(datos.message==="Success"){
         console.log(datos.res);
-        setdatos(datos.res);
+      //  setdatos(datos.res);
         setencontrado(datos.res)
         }
       }
@@ -172,7 +173,7 @@ var myInput = document.getElementById("exampleModal");
       }
        const BusquedaPorProveedor=(codigo)=>{
         let buscarTexto=ObtenerProveedor(codigo);
-        let text= buscarTexto.replace(/^\w/,(c) =>c.toLowerCase()); 
+        let text=  buscarTexto.replace(/^\w/,(c) =>c.toLowerCase()) ; 
         setdatos(encontrado.filter(function(item){
             return   item.empresa.toLowerCase().includes(text);   
           }).map(function(element){
@@ -191,8 +192,9 @@ var myInput = document.getElementById("exampleModal");
          }
 
         const vefrificarCodigoExistente=(codigo)=>{ 
-          for(let  i in datos){
-            if(datos[i].codbarr===codigo){
+          
+          for(let  i in encontrado){
+            if(encontrado[i].codbarr===codigo){
                  setCodebarr("")
               swal("Producto","ya existente","warning");
            
@@ -236,9 +238,10 @@ itemlote,
             onClick={AbrirIngreso}
             />
              <div className="form-outline mb-4">
-  <label className="form-label" htmlFor="form1Example1" >Empresa</label>
+  <label className="form-label" htmlFor="form1Example1" >Seleccione una empresa</label>
  
                   <select className="form-select form-select-sm" id="floatingSelectGrid" data-live-search="true" data-size="8" aria-label="Floating label select example"  onChange={(e)=>BusquedaPorProveedor(e.target.value)}>
+               
                          {datosp.length > 0 ? datosp.map((item,index) =>(
                          <option key={index} value={item.idProveedor} data-tokens={item.empresa}>{item.empresa}</option>))
                          :
