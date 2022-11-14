@@ -78,11 +78,11 @@ function Proveedor(props)  {
       if(proveedor !== null){
         if(proveedor.message==="Success"){
     
-          swal("Cliente","Ingresdo exitosamente","success");
+          swal("Proveedor","Ingresdo exitosamente","success");
          limpiar();
           ConsultarProveedor();
         }else{
-          swal("Cliente","No se pudo Ingresar, verifique los datos","warning");
+          swal("Proveedor","No se pudo Ingresar, verifique los datos","warning");
         }
       }
     }
@@ -102,11 +102,11 @@ function Proveedor(props)  {
       let proveedor=await Datos.ActualizarReg("proveedor",datos);
       if(proveedor !== null){
         if(proveedor.message==="Success"){
-          swal("Cliente","Ingresdo exitosamente","success");
+          swal("Proveedor","Ingresdo exitosamente","success");
           limpiar();
           ConsultarProveedor();
         }else{
-          swal("Cliente","No se pudo Ingresar, verifique los datos","warning");
+          swal("Proveedor","No se pudo Ingresar, verifique los datos","warning");
         }
       }
     }
@@ -114,12 +114,12 @@ function Proveedor(props)  {
       let proveedor=await Datos.BorrarReg("proveedor",datos.idproveedor);
       if(proveedor!==null){
         if(proveedor.message === "Success"){
-          swal("Cliente", "Eliminado con exíto","success")
+          swal("Proveedor", "Eliminado con exíto","success")
        
           ConsultarProveedor();
 
         }else{
-          swal("Cliente","No se pudo eliminar","warning");
+          swal("Proveedor","No se pudo eliminar","warning");
         }
       }
     }
@@ -132,7 +132,7 @@ function Proveedor(props)  {
       }
     }
     const AbrirActualizar=(datos,e)=>{
-setIdProveedor(datos.idproveedor);
+setIdProveedor(datos.idProveedor);
 setEmpresa(datos.empresa);
 /*setNombre(datos.nombre);
 setApellido(datos.apellido);
@@ -179,7 +179,7 @@ var myInput = document.getElementById("exampleModal");
             <SearchBar
             onChange={Busqueda} 
             value={buscar} 
-            placeholder="Buscar Cliente..."  
+            placeholder="Buscar Proveedor..."  
 
             data_bs_toggle="modal"
             data_bs_target="#exampleModal"
