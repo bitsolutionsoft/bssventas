@@ -18,6 +18,7 @@ function Producto(props)  {
     const [cantidad_maxima, setCant_maxima] = useState("")
     const [cantidad_minima, setCant_minima] = useState("")
     const [estado, setEstado] = useState("Activo");
+    const [codigoEmpresa, setCodigoEmpresa] = useState("")
     
     const [datos, setdatos] = useState([]);  
     
@@ -55,8 +56,9 @@ function Producto(props)  {
       if(datos!==null){
         if(datos.message==="Success"){
         console.log(datos.res);
-        setdatos(datos.res);
+       // setdatos(datos.res);
         setencontrado(datos.res)
+        Number(codigoEmpresa) > 0 && BusquedaPorProveedor(codigoEmpresa);
         }
       }
     }
@@ -139,7 +141,7 @@ function Producto(props)  {
       }
     }
     const AbrirActualizar=(datos,e)=>{
-setIdProducto(datos.idproducto);
+setIdProducto(datos.idProducto);
 setCodebarr(datos.codbarr);
 setIdproveedor(datos.idproveedor);
 setNombre(datos.nombre);
@@ -170,7 +172,9 @@ var myInput = document.getElementById("exampleModal");
         })
        );
       }
+
        const BusquedaPorProveedor=(codigo)=>{
+        setCodigoEmpresa(codigo);
         let buscarTexto=ObtenerProveedor(codigo);
         let text= buscarTexto.replace(/^\w/,(c) =>c.toLowerCase()); 
         setdatos(encontrado.filter(function(item){
@@ -373,7 +377,7 @@ itemlote,
                <td>{item.empresa}</td>
                <td>{item.especificacion}</td> 
                <td>{item.presentacion}</td>
-                <td>{item.stock}</td>
+               <td>{item.stock}</td>
                <td>{item.stock <= item.cantidad_minima ?
                 <i className="bi bi-x-circle-fill icon-error"   aria-hidden="true" ></i>
                 :
