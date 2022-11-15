@@ -2,7 +2,7 @@ import '../css/login.css';
 import md5 from 'md5';
 import React, { useContext, useEffect, useState } from 'react';
 import Datos from '../Host/Datos';
-import ls from "local-storage";
+import ls, { set } from "local-storage";
 import swal from "sweetalert"
 import Menu from '../Menu/Menu';
 import { DataContext } from '../Context/Context';
@@ -11,9 +11,10 @@ function Login(props)  {
     const [user, setuser] = useState("");
     const [password, setpassword] = useState("");
     const [isLogin, setIsLogin]=useState(false);
+    const [view, setView]=useState(false);
     const [selectedCliente, setSelectedCliente]=useState([])
-    
     const [usuarioActual, setUsuarioActual]=useState([])
+
    
     
 useEffect(()=>{
@@ -79,11 +80,12 @@ const valueProvider={
 return (
   <DataContext.Provider value={valueProvider}>
     {
-isLogin !==true ?
-<div className="container-fluid login">
+!isLogin  ?
+<div className="login">
+  <div className='bg2'>
      
-     <div className="container w-75 mt-5 mb-15">
-         <div className="row bg  bg-opacity-50 align-items-stretch  rounded">
+     <div className="w-75 mt-0 mb-15 bg " >
+         <div className="row    align-items-stretch  rounded">
              <div className="col  d-none d-lg-block col-md-5 col-lg-5 col-xl-6  imgleft">
              </div>
              <div className="col  p-2 rounded-end">
@@ -91,13 +93,13 @@ isLogin !==true ?
                  
                  <div className="d-flex justify-content-center h-100 ">
                      <div> 
-                         <div className="bg p-2 t bg-opacity-10">
+                         <div className=" p-2  ">
                              <div className="input-group form-group">
                                  <div> 
                                      <label htmlFor="username" className="form-label text-white fw-bold" > Usuario: </label>
-                                     <div className="input-group-prepend"> 
-                                     <i className="bi bi-person form-control-icon "  ></i>
-                                     <input type="text" className="form-control " placeholder="Username" name="user"  onChange={(e) => setuser(e.target.value)}/>
+                                     <div className="input-group"> 
+                                     <i className="bi bi-person-fill input-group-text "  ></i>
+                                     <input type="text" className="form-control " placeholder="Nombre de usuario" name="user"  onChange={(e) => setuser(e.target.value)}/>
                                      </div>
                                      
                                  </div>
@@ -106,15 +108,16 @@ isLogin !==true ?
                                  <div className="mb-3">
                                      
                                          <label htmlFor="password" className="form-label text-white fw-bold">Contraseña:</label>
-                                         <div className="form-group py-1 pb-2">
-                                         <i className="bi bi-lock form-control-icon " ></i>  
-                                         <input type="password" className="form-control" placeholder="Password" name="password" onKeyDown={(e)=>pressEnter(e)}   onChange={(e)=>setpassword(e.target.value)}/>
+                                         <div className="input-group">
+                                         <i className={view ? "bi bi-unlock-fill input-group-text" : "bi bi-lock-fill input-group-text"} ></i>  
+                                         <input type={view ? "text" : "password"} className="form-control" placeholder="Contraseña" name="password" onKeyDown={(e)=>pressEnter(e)}   onChange={(e)=>setpassword(e.target.value)}/>
+                                         <i className={view ? "bi bi-eye-fill input-group-text"  : "bi bi-eye-slash-fill input-group-text" } onClick={()=>setView(!view)}></i>  
                                          </div>
                                  </div>
                                  
                              </div>                           
-                             <div className="d-grid mb-10">
-                                 <div>
+                             <div className="d-grid mb-15">
+                                 <div className='mb-20'>
                                      <input type="submit" value="Iniciar Sesión" className="btn btn-secondary w-100 my-100" onClick={()=> loguear()}/>
                                  </div>
                              </div>
@@ -124,7 +127,7 @@ isLogin !==true ?
              </div>
          </div>
      </div>
-             
+     </div>       
  </div>
  :
 <Menu/>
