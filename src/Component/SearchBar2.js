@@ -12,9 +12,9 @@ function SearchBar2(props) {
               className="bi bi-search form-control-icon fa-1x "
               style={{ color: "gray" }}
             ></span>
-            <input
+               <input
               type="text"
-              className="form-control"
+              className="form-control "
               placeholder={props.placeholder}
               value={props.value}
               onChange={props.onChange}

@@ -4,6 +4,8 @@ import moment from "moment";
 import swal from "sweetalert";
 import Datos  from '../Host/Datos';
 
+import SearchBar2 from '../Component/SearchBar2'
+
 function Abono(props)  {
   /**datos del proveedor */
     const [idproveedor, setidproveedor] = useState("");
@@ -291,20 +293,21 @@ async function eliminarAbono(codigo){
 }
 
 
-const Busqueda =(buscarTexto)=>{
+const Busqueda =(e)=>{
+  let buscarTexto=e.target.value;
   let text=buscarTexto.replace(/^\w/,(c) =>c.toLowerCase());
   setbuscar(buscarTexto);
   setdatos(encontrado.filter(function(item){
-      return item.nombre.toLowerCase().includes(text) ;   
-    }).map(function({idproveedor, nombre}){
-      return{idproveedor, nombre}
+      return item.empresa.toLowerCase().includes(text) ;   
+    }).map(function(result){
+      return result
     })
    );
   }
    
   
 return(
-        <div>
+        <>
            <div className="mb-2">   <h5 className="modal-title">Empresa</h5></div>
             
 
@@ -461,10 +464,10 @@ return(
                <td>
                
                <div className="d-flex dropdown justify-content-center alig-items-center">
-  <button className="btn btn-sm btn-primary dropdown-toggle " type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+ <i className="bi bi-three-dots " type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
    
-  </button>
-  <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+   </i>
+  <ul className="dropdown-menu " aria-labelledby="dropdownMenuButton2">
     <li  className=" dropdown-item" data-bs-toggle="modal" data-bs-target="#abonoModal" onClick={(e)=>abrirActualizaA(e.target,item)}  >Editar</li>
     <li  className="dropdown-item"  onClick={(e)=>eliminarAbono(item.idabono)}>Eliminar</li>
     
@@ -564,27 +567,19 @@ return(
   </div>
 </div>
 
- < div className="container-fluid  mt-1  row ">
-     <div className="col-12 col-sm-12 col-md-5 col-lg-5 ">
-        <div className="row mb-2 ">
-            <div className="col-9 ">
-            <div className=" input-group form-group input-group-prepend">
-                                       
-                                            
-                                            <div className="input-group-prepend  w-100" >
-                                            <span className="fa fa-search form-control-icon fa-1x " style={{color:'gray'}}  ></span>
-                                            <input type="text" className="form-control " placeholder="Buscar Proveedor..."  value={buscar}  onChange={(e)=>Busqueda(e.target.value)} />
-                                            </div>
-                                            
-                                        </div>
-                                   
-           </div> 
-           {/** 
-    <div className="col-3">
-  <button type="button" className="ml-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={(e)=>abrirIngreso(e.target)} >Nuevo</button>
-</div>
-*/}
+{/*final modal ingreso de cuenta */}
 
+ < div className=" mt-1  row ">
+     <div className="col-12 col-sm-12 col-md-5 col-lg-5 ">
+        <div className="row mb-1 ">
+          <SearchBar2
+           onChange={Busqueda} 
+           value={buscar} 
+           placeholder="Buscar Proveedor..."  
+
+          
+          />
+        
         </div>
         <div className="div-table">
 <div className="table-wrap">
@@ -610,10 +605,10 @@ return(
                <td>
                
                <div className="d-flex dropdown justify-content-center alig-items-center">
-  <button className="btn btn-sm btn-primary dropdown-toggle " type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+               <i className="bi bi-three-dots " type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
    
-  </button>
-  <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+   </i>
+  <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton2">
 
     
     <li  className="dropdown-item" data-bs-toggle="modal" data-bs-target="#cuentaModal" onClick={(e)=>abrirIngresoc(e.target,item.idProveedor)} >Ingresar Nueva Cuenta</li>
@@ -673,10 +668,10 @@ return(
                 <td>
                
                <div className="d-flex dropdown justify-content-center alig-items-center">
-  <button className="btn btn-sm btn-warning dropdown-toggle " type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+               <i className="bi bi-three-dots " type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
    
-  </button>
-  <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+   </i>
+  <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton2">
     <li  className=" dropdown-item" data-bs-toggle="modal" data-bs-target="#abonoModal" onClick={(e)=>abrirIngresoAbono(e.target,item.idcuenta)} >Agregar abono</li>
     <li  className="dropdown-item" data-bs-toggle="modal" data-bs-target="#abonodetalleModal" onClick={(e)=>abrirDetalleAbonos(e.target,item.idcuenta)} >Detalles de Abono</li>
    <li  className="dropdown-item" data-bs-toggle="modal" data-bs-target="#cuentaModal" onClick={(e)=>abrirActualizarC(e.target,item)} >Editar</li>
@@ -706,7 +701,7 @@ return(
 
 
       
-        </div>
+        </>
         
 
     );

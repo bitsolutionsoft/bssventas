@@ -57,7 +57,7 @@ function Producto(props)  {
       if(datos!==null){
         if(datos.message==="Success"){
         console.log(datos.res);
-      //  setdatos(datos.res);
+      setdatos(datos.res);
 
         setencontrado(datos.res)
         Number(codigoEmpresa) > 0 && BusquedaPorProveedor(codigoEmpresa);
@@ -176,6 +176,7 @@ var myInput = document.getElementById("exampleModal");
       }
 
        const BusquedaPorProveedor=(codigo)=>{
+        if(codigo >0){
         setCodigoEmpresa(codigo);
         let buscarTexto=ObtenerProveedor(codigo);
         let text=  buscarTexto.replace(/^\w/,(c) =>c.toLowerCase()) ; 
@@ -185,7 +186,9 @@ var myInput = document.getElementById("exampleModal");
             return element
           })
          );
-      
+         return
+        }
+      setdatos(encontrado);
         }
         
         const ObtenerProveedor = (codigo) => { 
@@ -246,8 +249,9 @@ itemlote,
   <label className="form-label" htmlFor="form1Example1" >Seleccione una empresa</label>
  
                   <select className="form-select form-select-sm" id="floatingSelectGrid" data-live-search="true" data-size="8" aria-label="Floating label select example"  onChange={(e)=>BusquedaPorProveedor(e.target.value)}>
-               
+               <option value={0}>Todo</option>
                          {datosp.length > 0 ? datosp.map((item,index) =>(
+                        
                          <option key={index} value={item.idProveedor} data-tokens={item.empresa}>{item.empresa}</option>))
                          :
                         null

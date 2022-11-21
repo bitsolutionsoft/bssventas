@@ -57,12 +57,14 @@ class Datos{
         .then((respDatos)=>respDatos)
         .catch((error)=>error);  
     }
+
     ConsultaAbonoXC(id){
         return fetch(`${host}abono_proveedor/viewxc/${id}`,Header.headerGets())
         .then(response=>response.json())
         .then((respDatos)=>respDatos)
         .catch((error)=>error);  
     }
+
     consultarInforme(tabla,datos){
     
         return  fetch(host+`${tabla}`,Header.headerPostCB(datos))
