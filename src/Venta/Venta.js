@@ -65,7 +65,7 @@ function Venta(props) {
 
  const  obneterEmpleado=()=> {    
   if(ls.get('usuario')!==null){
-console.log(ls.get("usuario"))
+//console.log(ls.get("usuario"))
       setIdEmpleado(ls.get("usuario").idempleado)
   }
 }

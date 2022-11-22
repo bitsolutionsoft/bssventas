@@ -60,7 +60,7 @@ function Producto(props)  {
       setdatos(datos.res);
 
         setencontrado(datos.res)
-        Number(codigoEmpresa) > 0 && BusquedaPorProveedor(codigoEmpresa);
+     //   Number(codigoEmpresa) > 0 && BusquedaPorProveedor(codigoEmpresa);
         }
       }
     }
@@ -143,7 +143,7 @@ function Producto(props)  {
       }
     }
     const AbrirActualizar=(datos,e)=>{
-setIdProducto(datos.idProducto);
+setIdProducto(datos.idproducto);
 setCodebarr(datos.codbarr);
 setIdproveedor(datos.idproveedor);
 setNombre(datos.nombre);
@@ -168,7 +168,7 @@ var myInput = document.getElementById("exampleModal");
       setbuscar(buscarTexto);
       
       setdatos(encontrado.filter(function(item){
-          return   item.idproducto===text|| item.nombre.toLowerCase().includes(text) || item.presentacion.toLowerCase().includes(text) || item.especificacion.toLowerCase().includes(text);   
+          return   item.idproducto===text|| item.nombre.toLowerCase().includes(text) || item.presentacion.toLowerCase().includes(text) || item.especificacion.toLowerCase().includes(text) || item.empresa.toLowerCase().includes(text);   
         }).map(function(element){
           return element
         })
@@ -179,7 +179,8 @@ var myInput = document.getElementById("exampleModal");
         if(codigo >0){
         setCodigoEmpresa(codigo);
         let buscarTexto=ObtenerProveedor(codigo);
-        let text=  buscarTexto.replace(/^\w/,(c) =>c.toLowerCase()) ; 
+        //let text=  buscarTexto.replace(/^\w/,(c) =>c.toLowerCase()) ; 
+        let text=  buscarTexto.toLowerCase() ; 
         setdatos(encontrado.filter(function(item){
             return   item.empresa.toLowerCase().includes(text);   
           }).map(function(element){
@@ -200,16 +201,18 @@ var myInput = document.getElementById("exampleModal");
          }
 
         const vefrificarCodigoExistente=(codigo)=>{ 
-          
+          if(encontrado.length >0){
           for(let  i in encontrado){
-            if(encontrado[i].codbarr===codigo){
-                 setCodebarr("")
+            if(encontrado[i].codbarr===codigo){    
               swal("Producto","ya existente","warning");
-           
+             setCodebarr("")
             }else{
               setCodebarr(codigo)
             }
           }
+          return
+        }
+        setCodebarr(codigo)
         }
     
   const AbrirIngreso=(e)=>{
