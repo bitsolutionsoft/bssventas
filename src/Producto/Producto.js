@@ -141,7 +141,7 @@ var myInput = document.getElementById("exampleModal");
       setbuscar(buscarTexto);
       
       setdatos(encontrado.filter(function(item){
-          return   item.idproducto.includes(text) || item.nombre.toLowerCase().includes(text) || item.presentacion.toLowerCase().includes(text) || item.especificacion.toLowerCase().includes(text);   
+          return   item.idproducto === text || item.nombre.toLowerCase().includes(text) || item.presentacion.toLowerCase().includes(text) || item.especificacion.toLowerCase().includes(text);   
         }).map(function(element){
           return element
         })
@@ -270,8 +270,9 @@ itemlote,
             <th>Especificacion</th>
             <th>Stock</th>  
             <th></th>
-            <th>C/Mim</th>
             <th>C/Max</th>
+            <th>C/Mim</th>
+            
            
             <th>Lotes</th>
             <th>Estado</th>
