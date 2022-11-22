@@ -434,7 +434,7 @@ const detalleItem = (data,codigoFac) => {
   return item
 }
 
- async function vender() {
+ async function vender(estado) {
 
 let fact={
     "idfactura":0, 
@@ -945,9 +945,11 @@ return (
     </div>
   </div>
   <div className="row d-flex justify-content-center">
-    <button type="button" className="btn btn-primary w-75 mb-2 " onClick={() =>vender("Vendido","Tienda")} >Vender</button>
+    <button type="button" className="btn btn-primary w-75 mb-2 " onClick={() =>vender("Vendido")} >Vender</button>
    </div> 
-     
+   <div className="row d-flex justify-content-center">
+    <button type="button" className="btn btn-secondary w-75 mb-2 " onClick={() =>vender("Credito")} >A credito</button>
+   </div> 
 </div>
 
 
