@@ -14,6 +14,7 @@ import {Info} from '../Host/Info';
 import Proveedor from '../Proveedor/Proveedor';
 import Ajuste from './Ajuste';
 import Abono from '../Abono/Abono';
+import Credito from '../Credito/Credito';
 
 function Menu(props)  {
     const [screen, setScreen] = useState("Venta");
@@ -100,6 +101,12 @@ const acceso = (modulo) => {
                 case 'Informe':
                     if(acceso("Informe")){
                       return <Informe />
+                   }else{
+                      return <AlertModel tipo="warning" titulo="Aviso" msg="No tienes acceso a Informe" />;
+                   }
+                   case 'Credito':
+                    if(acceso("Credito")){
+                      return <Credito />
                    }else{
                       return <AlertModel tipo="warning" titulo="Aviso" msg="No tienes acceso a Informe" />;
                    }
@@ -209,6 +216,13 @@ const acceso = (modulo) => {
                                 <i className="bi bi-wallet2" ></i> <span className="ms-1 d-none d-md-none d-xl-inline">Abono</span>
                                 </div>
                         </li>
+                        
+                        <li onClick={()=>setScreen("Credito")} className={screen === "Credito" ? nav_active : nav_item}>
+                        <div    className=" px-0 align-middle">
+                                <i className="bi bi-credit-card-2-front-fill" ></i> <span className="ms-1 d-none d-md-none d-xl-inline">Credito C</span>
+                                </div>
+                        </li>
+
 
 
                         <li onClick={cerrarSesion} className={screen === "Salir" ? nav_active : nav_item}>

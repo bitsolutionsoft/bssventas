@@ -75,5 +75,11 @@ const ConvetirClAData=(data)=>{
               return false
             }
           }
-
-export {ConvetirPlanAData, ConvetirClAData,ConvetirEmpanAData,ConvetirPagoAData, Obtenercliente,ObtenerPlan,ObtenerEmpleado,ObtenerTipoPago,AplicarMora};
+          const ConvertirAMoneda=(valor)=>{
+            const Moneda=Intl.NumberFormat("es-GT",{
+             style:"currency",
+             currency:"GTQ"
+           }).format(valor);
+           return Moneda;
+          }
+export {ConvetirPlanAData, ConvetirClAData,ConvetirEmpanAData,ConvetirPagoAData, Obtenercliente,ObtenerPlan,ObtenerEmpleado,ObtenerTipoPago,AplicarMora,ConvertirAMoneda};

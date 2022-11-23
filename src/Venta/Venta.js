@@ -388,19 +388,6 @@ for (let i in datos){
 //  return result
 }
 
-  /*   let res=false;
-   res=datos.map((item)=>{
-              if(item.idproducto === data.idproducto && item.idlote === data.idlote){
-                  item.cantidad=(Number(item.cantidad)+Number(data.cantidad));
-
-                   setdatos(datos => [...datos])
-                 
-                   res= true;
-              }
-              return true;     
-          });
-          return res;*/
-  
 }
 
 
@@ -435,6 +422,7 @@ const detalleItem = (data,codigoFac) => {
 }
 
  async function vender(estado) {
+  if(datosv.length >0){
 
 let fact={
     "idfactura":0, 
@@ -462,7 +450,19 @@ let fact={
                 }
             })
             )
-
+            if(estado ==="Credito"){
+              let datoscreditos={
+                idcredito:0,
+                idfactura:codfactura,
+                estado:"Pendiente"
+              }
+              let credito=await Datos.NuevoReg("credito",datoscreditos)
+              if(credito!==null){
+                if(credito.message!=="Success"){
+                  swal("Aviso","no se pudo  registrar el credito", "error")
+                }
+              }
+            }
 
   
     }
@@ -470,8 +470,9 @@ let fact={
   
     
    imprimirBoleta();
-   
-    
+   return
+  }
+    swal("Aviso", "Selecciona los productos para poder vender","warning");
  }
 
 const borraDatosVenta = () => {
