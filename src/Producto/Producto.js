@@ -164,7 +164,8 @@ var myInput = document.getElementById("exampleModal");
 
       let buscarTexto=e.target.value;
       setbuscar(buscarTexto);
-      let text=buscarTexto.match(soloNumero) !==null ? buscarTexto : buscarTexto.replace(/^\w/,(c) =>c.toLowerCase());
+    //  let text=buscarTexto.match(soloNumero) !==null ? buscarTexto : buscarTexto.replace(/^\w/,(c) =>c.toLowerCase());
+    let text=buscarTexto.match(soloNumero) !==null ? buscarTexto : buscarTexto.toLowerCase();
       setbuscar(buscarTexto);
       
       setdatos(encontrado.filter(function(item){
