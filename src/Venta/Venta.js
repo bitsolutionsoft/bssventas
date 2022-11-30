@@ -99,11 +99,12 @@ async function numero_orden() {
           switch(position){
           case "primero":
             setIdCliente(datc.res[0].idcliente)
+            setclieteSelect(datc.res[0]);
             break;
             case "ultimo":
             let ult=datc.res.length-1;
-        
             setIdCliente(datc.res[ult].idcliente)
+            setclieteSelect(datc.res[ult]);
             break;
             default:
             break;
@@ -170,10 +171,13 @@ async function guardarCliente(e){
     }
 
     const Busqueda = (e) => {
-      let buscarTexto=e.target.value;
-        let text = buscarTexto.replace(/^\w/, (c) => c.toLowerCase());
-        setbuscar(buscarTexto);
+      let soloNumero=/^[0-9]+$/;
 
+      let buscarTexto=e.target.value;
+      setbuscar(buscarTexto);
+    //  let text=buscarTexto.match(soloNumero) !==null ? buscarTexto : buscarTexto.replace(/^\w/,(c) =>c.toLowerCase());
+    let text=buscarTexto.match(soloNumero) !==null ? buscarTexto : buscarTexto.toLowerCase();
+      setbuscar(buscarTexto);
         setdatos(encontrado.filter(function(item){
           return item.nombre.toLowerCase().includes(text) || item.presentacion.toLowerCase().includes(text) || item.especificacion.toLowerCase().includes(text);
         }).map(function(element){
@@ -545,6 +549,7 @@ setvisible(true)
             consultarProducto();
           //  numero_orden();
             setIdCliente(datosc[0].idcliente);
+            ClienteSelected(datosc[0].idcliente)
             borraDatosVenta();
         }
       });
@@ -557,6 +562,7 @@ const nuevaVenta = () => {
   consultarProducto();
   //numero_orden();
   setIdCliente(datosc[0].idcliente);
+  ClienteSelected(datosc[0].idcliente)
   borraDatosVenta();
   
  }
