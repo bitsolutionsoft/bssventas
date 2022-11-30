@@ -94,23 +94,25 @@ async function numero_orden() {
         let datc = await Datos.Consulta("cliente");
     
         if (datc !== null) {
+          if(datc.message==="Success"){
           setdatosc(datc.res);
  
           switch(position){
           case "primero":
             setIdCliente(datc.res[0].idcliente)
-            ClienteSelected(datc.res[0].idcliente);
+            setclieteSelect(datc.res[0]);
             break;
             case "ultimo":
             let ult=datc.res.length-1;
         
             setIdCliente(datc.res[ult].idcliente)
-            ClienteSelected(datc.res[ult].idcliente);
+            setclieteSelect(datc.res[ult]);
             break;
             default:
             break;
             }
         }
+      }
     
       }
 
@@ -285,24 +287,6 @@ if(!existeProducto(data)){
   
 }
 
-/*        datos.map((item) =>{
-        if(item.idproducto === data.idproducto && item.idlote===data.idlote){
-           if(item.cantidad >= cantidad){
-
-            console.log(existeProducto(data))
-           if(!existeProducto(data)){
-               AgregarNuevo(data,cantidad);
-               item.cantidad=Number(item.cantidad)-Number(cantidad); 
-               setdatos(datos=>[...datos]);  
-           setencontrado(datos);
-
-           }
-           }
-          
-       }
-       return true;
-    } );    
- */
           calcTotal(datosv)        
             }
   
