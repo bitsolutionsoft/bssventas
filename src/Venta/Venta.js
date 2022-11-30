@@ -99,11 +99,13 @@ async function numero_orden() {
           switch(position){
           case "primero":
             setIdCliente(datc.res[0].idcliente)
+            ClienteSelected(datc.res[0].idcliente);
             break;
             case "ultimo":
             let ult=datc.res.length-1;
         
             setIdCliente(datc.res[ult].idcliente)
+            ClienteSelected(datc.res[ult].idcliente);
             break;
             default:
             break;
@@ -147,9 +149,9 @@ async function guardarCliente(e){
        if(cliented !== null){
            if(cliented.message ==="Success"){
              limpiarCliente();
-           
+            consultarCliente("ultimo");
              swal("Cliente ingresado con exito");
-              consultarCliente("ultimo");
+             
         }
        }
     }
@@ -171,7 +173,8 @@ async function guardarCliente(e){
 
     const Busqueda = (e) => {
       let buscarTexto=e.target.value;
-        let text = buscarTexto.replace(/^\w/, (c) => c.toLowerCase());
+        //let text = buscarTexto.replace(/^\w/, (c) => c.toLowerCase());
+        let text = buscarTexto.toLowerCase();
         setbuscar(buscarTexto);
 
         setdatos(encontrado.filter(function(item){
@@ -546,6 +549,7 @@ setvisible(true)
             consultarProducto();
           //  numero_orden();
             setIdCliente(datosc[0].idcliente);
+            ClienteSelected(datosc[0].idcliente)
             borraDatosVenta();
         }
       });
@@ -558,14 +562,16 @@ const nuevaVenta = () => {
   consultarProducto();
   //numero_orden();
   setIdCliente(datosc[0].idcliente);
+  ClienteSelected(datosc[0].idcliente);
   borraDatosVenta();
   
  }
- const ClienteSelected=(idcliente)=>{
-  setIdCliente(idcliente);
-  console.log(idcliente)
+ const ClienteSelected=(id)=>{
+  setIdCliente(id);
+  console.log(id)
   for(let i  in datosc){
-    if(Number(datosc[i].idcliente) ===Number( idcliente)){
+    if(Number(datosc[i].idcliente) ===Number(id)){
+      console.log(datosc[i])
  setclieteSelect(datosc[i])
     }
   }
@@ -621,7 +627,7 @@ return (
       <div className="modal-body" id='boleta'>
       <div >   
         <h6 className="modal-title">Comprobante de compra</h6>   
-            <p>{clieteSelect !== undefined ? 'Cliente: '+clieteSelect.nombre+" "+clieteSelect.apellido : "Cliente: ________________"} </p>
+            <p>{clieteSelect !== undefined  ? 'Cliente: '+clieteSelect.nombre+" "+clieteSelect.apellido : "Cliente: ________________"} </p>
             <p>{clieteSelect !== undefined ? 'Nit: '+clieteSelect.nit+" " : "Nit: CF"} </p>
             <p>{clieteSelect !== undefined ? 'Dirección: '+clieteSelect.direccion+" " : "Dirección: Ciudad"} </p>
             <p>Productos: </p>
@@ -642,7 +648,7 @@ return (
                             </tr>
                         </thead>
                         <tbody>
-                            {datosv ? datosv.map((item,index) => (
+                            {datosv.length > 0 ? datosv.map((item,index) => (
                             <tr key={index} >
                           <td  >{item.cantidad}</td>
                                 <td  >{item.descripcion}</td>
