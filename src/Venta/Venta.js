@@ -257,9 +257,6 @@ const returnDatosDeVenta = ( datosventa,newItem) => {
 
  const AgregarProducto=(data,cantidad) =>{
 
-console.table(data)
-console.log(cantidad)
-
 if(!existeProducto(data)){
   for(let i in datos){
     if(datos[i].idproducto===data.idproducto && datos[i].idlote ===data.idlote){
@@ -267,7 +264,8 @@ if(!existeProducto(data)){
         datos[i].cantidad =Number(datos[i].cantidad)- Number(cantidad);
         AgregarNuevo(data,cantidad);
         setdatos(datos =>[...datos]);
-        setencontrado(datos);
+       // setencontrado(datos);
+       actualizarEncontrado()
       }
     }
   }
@@ -280,11 +278,23 @@ if(!existeProducto(data)){
         datos[i].cantidad =Number(datos[i].cantidad)- Number(cantidad);
         AgregarUNO(data,cantidad);
         setdatos(datos =>[...datos]);
-        setencontrado(datos);
+        //setencontrado(datos);
+        actualizarEncontrado();
       }
     }
   }
   
+}
+const actualizarEncontrado = () => { 
+for (let i in datos){
+  for(let j in encontrado){
+    if(datos[i].idproducto === encontrado[j].idproducto && datos[i].idlote === encontrado[i].idlote) {
+      encontrado[j].cantidad=datos[i].cantidad;
+      return
+  }
+
+}
+
 }
 
           calcTotal(datosv)        
