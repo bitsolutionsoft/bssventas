@@ -255,6 +255,18 @@ const returnDatosDeVenta = ( datosventa,newItem) => {
     
 }
 
+const actualizarEncontrado = () => { 
+  for (let i in datos){
+    for(let j in encontrado){
+      if(datos[i].idproducto === encontrado[j].idproducto && datos[i].idlote === encontrado[i].idlote) {
+        encontrado[j].cantidad=datos[i].cantidad;
+        return
+    }
+  
+  }
+  }
+  }
+
  const AgregarProducto=(data,cantidad) =>{
 
 if(!existeProducto(data)){
@@ -285,17 +297,7 @@ if(!existeProducto(data)){
   }
   
 }
-const actualizarEncontrado = () => { 
-for (let i in datos){
-  for(let j in encontrado){
-    if(datos[i].idproducto === encontrado[j].idproducto && datos[i].idlote === encontrado[i].idlote) {
-      encontrado[j].cantidad=datos[i].cantidad;
-      return
-  }
 
-}
-
-}
 
           calcTotal(datosv)        
             }

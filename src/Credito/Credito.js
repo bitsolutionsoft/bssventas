@@ -21,7 +21,7 @@ const [idcredito, setidcredito] = useState("");
 const [resumenTotal, setResumenTotal]=useState(0);
 const[resumenAbono, setResmunAbono] =useState(0);
 const resumeSaldo=Number(resumenTotal)-Number(resumenAbono);
-
+const [detalle, setDetalle] = useState([]);
 
   useEffect(()=>{
 ConsultarCredito()
@@ -152,6 +152,22 @@ async function eliminarCredito(codigo){
   }
 }
 
+async function verDetalle (item,e)  {
+ 
+  let detalle=await Datos.ConsutaID("detalle_factura/byfac", item.idfactura) ;
+  if(detalle !== null){
+    console.log(detalle)
+      if(detalle.message ==="Success"){
+          setDetalle(detalle.res);
+      }
+  }
+  
+  var myInput = document.getElementById("exampleModal");
+  e.addEventListener("shown.bs.modal", function () {
+    myInput.focus();
+  });
+}
+
   const Busqueda =(e)=>{
     let buscarTexto=e.target.value;
     setbuscar(buscarTexto);
@@ -217,9 +233,9 @@ async function eliminarCredito(codigo){
                
                <td>{item.idcredito}</td>
                <td>{item.nombre}</td>
-               <td>{item.total}</td>
-               <td>{item.abono}</td>
-               <td>{Number(item.total)-Number(item.abono)}</td>
+               <td>{ConvertirAMoneda(item.total)}</td>
+               <td>{ConvertirAMoneda(item.abono)}</td>
+               <td>{ConvertirAMoneda(Number(item.total)-Number(item.abono))}</td>
 
                {item.estado === "Activo" ? <td ><p className="activo">{item.estado}</p></td>:
                <td ><p className="noactivo">{item.estado}</p></td>
@@ -232,6 +248,9 @@ async function eliminarCredito(codigo){
   </i>
   <ul className="dropdown-menu " aria-labelledby="dropdownMenuButton2">
   <li  className="dropdown-item" data-bs-toggle="modal" data-bs-target="#abonoModal" onClick={()=>{setSelectedCredit(item.idcredito); setidcredito(item.idcredito)}}>Agregar Pago</li>
+  <td ><i   className="bi bi-info-circle-fill icon-option" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={(e)=>verDetalle(item,e.target)}></i></td>
+
+
   <li  className="dropdown-item" onClick={()=>eliminarCredito(item.idcredito)}>elilminar</li>
       
    
@@ -285,7 +304,7 @@ async function eliminarCredito(codigo){
             <tr  key={index} >
                
                <td>{item.idabono}</td>
-             <td>{item.abono}</td>
+             <td>{ConvertirAMoneda(item.abono)}</td>
              <td>{item.tipopago}</td>
                <td>{moment(item.fecha).format("DD-MM-YYYY")}</td>
                
@@ -319,6 +338,57 @@ async function eliminarCredito(codigo){
       </div>
 
         </div>
+{/**modal de detalle producto */}
+<div className="modal fade " id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog modal-xl">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title">Detalle de la venta</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+      <div className="table-wrap">
+      <table className="table-item">
+        <thead >
+            <tr>
+              <th>Código</th>
+              <th>No. de lote</th>
+              <th>Descripción</th>         
+              <th>Cantidad</th>
+              <th>Precio</th>
+              <th>Subtotal </th>
+            </tr>
+          </thead>
+         <tbody>
+        { detalle ?
+             detalle.map((item, index) =>(
+              <tr key={index} >
+                 <td>{item.id_producto}</td>
+                 <td>{item.idlote}</td>
+                  <td>{item.descripcion}</td>
+                 <td>{item.cantidad}</td>  
+                 <td>{ConvertirAMoneda(item.precio)}</td>
+                 <td>{ConvertirAMoneda(item.subtotal)}</td>
+               </tr>
+             )) 
+             : null
+             
+        
+             }
+        
+         </tbody>
+        </table>
+
+      </div>
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Salir</button>
+      
+      </div>
+    </div>
+  </div>
+</div>
+{/**final del modal */}
 
              {/* ingreso de  ingreso de abonos */}
          
