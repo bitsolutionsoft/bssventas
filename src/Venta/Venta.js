@@ -255,6 +255,17 @@ const returnDatosDeVenta = ( datosventa,newItem) => {
     
 }
 
+const actualizarEncontrado = () => { 
+  for (let i in datos){
+    for(let j in encontrado){
+      if(datos[i].idproducto === encontrado[j].idproducto && datos[i].idlote === encontrado[i].idlote) {
+        encontrado[j].cantidad=datos[i].cantidad;
+        return
+    }
+  
+  }
+  }
+  }
  const AgregarProducto=(data,cantidad) =>{
 
 console.table(data)
@@ -267,7 +278,8 @@ if(!existeProducto(data)){
         datos[i].cantidad =Number(datos[i].cantidad)- Number(cantidad);
         AgregarNuevo(data,cantidad);
         setdatos(datos =>[...datos]);
-        setencontrado(datos);
+       // setencontrado(datos);
+       actualizarEncontrado();
       }
     }
   }
@@ -280,7 +292,8 @@ if(!existeProducto(data)){
         datos[i].cantidad =Number(datos[i].cantidad)- Number(cantidad);
         AgregarUNO(data,cantidad);
         setdatos(datos =>[...datos]);
-        setencontrado(datos);
+        //setencontrado(datos);
+        actualizarEncontrado();
       }
     }
   }
