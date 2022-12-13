@@ -15,7 +15,7 @@ import moment from "moment";
 import swal from "sweetalert";
 
 import Datos  from '../Host/Datos';
-
+import { ConvertirAMoneda } from '../Funciones/Funciones';
 
 function Informe(props)  {
 
@@ -368,6 +368,32 @@ return(
 </div>
     
 </div>
+
+<div className='secc_info'>
+
+{datosGanacias.length > 0 ?
+datosGanacias.map((item,index)=>( 
+      <div key={index} className='contain-status' >
+ <div className='div-inversion'>
+<label className='title-card-info'>Total de venta</label>
+<label className='desc-card-info'>{ConvertirAMoneda(item.ventas.toFixed(2))}</label>
+ </div>
+ <div className='div-ventas'>
+ <label className='title-card-info'>Total de inversion</label>
+<label className='desc-card-info'>{ConvertirAMoneda(item.compra.toFixed(2))}</label>
+ </div>
+ <div className='div-ganancia'>
+ <label className='title-card-info'>Total  de Ganancia</label>
+<label className='desc-card-info'>{ConvertirAMoneda(item.ganancia.toFixed(2))}</label>
+ </div>
+ </div>
+     
+))
+:
+null
+} 
+</div>
+{/**
 <div >
  
 <table className="table-subitem">
@@ -397,6 +423,7 @@ datosGanacias.map((item,index)=>(
       </table>
   
 </div>
+ */}
 <div className="row vh-70">
 
 <div className="row w-100 h-50 ">

@@ -232,7 +232,7 @@ const acceso = (modulo) => {
                         </li>
                     </ul>
                     <hr/>
-                   
+                   <p>BitSolutionSoft</p>
                 </div>
             </div>
             

@@ -10,7 +10,7 @@ body{
 .login{
     
 background-image: url('../Img/Login.jpg');
-background-size: inherit;
+background-size: cover;
 background-position: center center;
 background-repeat: no-repeat;
 background-attachment: fixed;
